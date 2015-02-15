@@ -31,3 +31,9 @@ This is a description and architecture of backup solution, which will cover my p
 * Client - java application, which calls rsync and sends usage statistics to control server.
 * Data server - RaspberryPI with mounted external HDD + java app (very similar to client java app).
 * Control server - REST API, js UI, minimal logic, used mostly to display data. Can not control data servers or clients. 
+
+## Roadmap ##
+
+* Mount external HDD to RaspberryPI via powered USB hub.
+* Setup cygwin + rsync in Win client. Verify cygwin+rsync => PI is working.
+* Simple Java client.
