@@ -1,6 +1,6 @@
-// Note: assuming you are using Debian based OS
+> NOTE: assuming you are using Debian based OS
 
-* Find attached USB device
+* Find attached USB drive
   * Print block devices attributes
   ```
 sudo blkid
