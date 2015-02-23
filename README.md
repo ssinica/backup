@@ -34,6 +34,10 @@ This is a description and architecture of backup solution, which will cover my p
 
 ## Roadmap ##
 
-* Mount external HDD to RaspberryPI via powered USB hub.
+* ~~Mount external HDD to RaspberryPI via powered USB hub.~~
 * Setup cygwin + rsync in Win client. Verify cygwin+rsync => PI is working.
 * Simple Java client.
+
+## TOC ##
+
+* [How to mount USB drive](mount-usb-drive.md)
