@@ -41,3 +41,4 @@ This is a description and architecture of backup solution, which will cover my p
 ## TOC ##
 
 * [How to mount USB drive](mount-usb-drive.md)
+* [How to setup data server](setup-data.server.md)
