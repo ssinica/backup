@@ -1,4 +1,6 @@
-== Prepare data server ==
+# Setup data server #
+
+## Setup SSH ##
 
 * Permit root login and allow logins via SSH only with certificate authorization
 ```
@@ -12,7 +14,7 @@ sudo nano /etc/ssh/sshd_config
 sudo service ssh restart
 ```
 
-== Create user ==
+## Create user ##
 
 * Add user ```bc```
 ```
@@ -27,7 +29,7 @@ ssh-keygen -t rsa -b 4096 -C bc@bc.com -f bc.backup
 nano /home/bc/.ssh/authorized_keys
 ```
 
-== Prepare backups root directory ==
+## Create directory for backups ##
 
 ```
 sudo mkdir -p /data/backup
