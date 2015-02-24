@@ -21,8 +21,9 @@ This is a description and architecture of backup solution, which will cover my p
 ## Roadmap ##
 
 * [*done*] Mount external HDD to RaspberryPI via powered USB hub.
-* Setup cygwin + rsync in Win client. Verify cygwin+rsync => PI is working.
-* Simple Java client.
+* [*done*] Setup cygwin + rsync in Win client. Verify cygwin+rsync => PI is working.
+* Simple Java wrapper around rsync. Run rsync from Java.
+* Read/parse rsync command output. How many files are transfered, how many bytes, time, etc...
 
 ## TOC ##
 
