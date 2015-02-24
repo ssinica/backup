@@ -26,5 +26,6 @@ This is a description and architecture of backup solution, which will cover my p
 
 ## TOC ##
 
+* link:concept-design.adoc[Concept design]
 * link:mount-usb-drive.md[How to mount USB drive]
 * link:setup-data-server.md[How to setup data server]
