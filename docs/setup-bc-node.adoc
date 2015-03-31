@@ -1,37 +1,46 @@
-# Setup data server #
+# How to setup bc-node #
 
 ## Setup SSH ##
 
 * Permit root login and allow logins via SSH only with certificate authorization
-```
++
+----
 sudo nano /etc/ssh/sshd_config
-
->> PermitRootLogin no
->> PasswordAuthentication no
-```
+----
++
+Lookup following values and modify accordingly:
++
+----
+PermitRootLogin yes
+PasswordAuthentication no
+----
 * Restart ssh
-```
++
+----
 sudo service ssh restart
-```
+----
 
 ## Create user ##
 
-* Add user ```bc```
-```
+* Add user `bc`
++
+----
 sudo adduser bc
-```
-* On your client generate pub/private keys you will use to login to data server
-```
+----
+* On your `bc-client` generate pub/private keys you will use to login to `bc-node`
++
+----
 ssh-keygen -t rsa -b 4096 -C bc@bc.com -f bc.backup
-```
-* Add public key to ```authorized_keys``` file
-```
+----
+* Add public key to `authorized_keys` file
++
+----
 nano /home/bc/.ssh/authorized_keys
-```
+----
 
 ## Create directory for backups ##
 
-```
+----
 sudo mkdir -p /data/backup
 sudo chown -R bc:bc /data/backup
-```
+----

@@ -2,6 +2,8 @@ image:https://badges.gitter.im/Join%20Chat.svg[link="https://gitter.im/ssinica/b
 
 # Backup
 
+WARNING: Being too busy to worry about backup is like being too busy driving a car to put on a seatbelt.
+
 ## TOC ##
 
 * link:docs/mount-usb-drive.adoc[How to mount USB drive (Debian)]
