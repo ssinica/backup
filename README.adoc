@@ -1,3 +1,5 @@
+image:https://badges.gitter.im/Join%20Chat.svg[link="https://gitter.im/ssinica/backup?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge"]
+
 # Backup
 
 This is a description and architecture of backup solution, which will cover my personal needs.
@@ -30,6 +32,3 @@ This is a description and architecture of backup solution, which will cover my p
 * link:concept-design.adoc[Concept design]
 * link:mount-usb-drive.md[How to mount USB drive]
 * link:setup-data-server.md[How to setup data server]
-
-
-image:https://badges.gitter.im/Join%20Chat.svg[link="https://gitter.im/ssinica/backup?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge"]
