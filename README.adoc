@@ -2,33 +2,14 @@ image:https://badges.gitter.im/Join%20Chat.svg[link="https://gitter.im/ssinica/b
 
 # Backup
 
-This is a description and architecture of backup solution, which will cover my personal needs.
-
-## Functional requirements ##
-
-* There are few data types, which I need to backup. They can be discribed as:
-** Big, changes infrequently, important, long-lived. Like: personal images and videos. 
-** Small, changes regulary, important, long-lived. Like: documents, ids, scans, bills.
-** Small, not important, but sad to lose. Like: books, manuals.
-** Small, recoverable from other sources, need to be able to restore quickly. All related to work: source code, settings, portable apps, env configs.
-* It should be possible to backup to:
-** Local storage. Like: external hard drive connected via USB to computer.
-** Remote storage. Like NAS server somethere out in the NET: local or Internet.
-** S3
-* The backup should be incremental.
-* Backup to S3 should be cost effective. I want to backup to S3 only really important data. I will read data from S3 only to recover.
-* Need to support linux/win clients.
-* Data should be replicated across storages.
-
-## Roadmap ##
-
-* [*done*] Mount external HDD to RaspberryPI via powered USB hub.
-* [*done*] Setup cygwin + rsync in Win client. Verify cygwin+rsync => PI is working.
-* Simple Java wrapper around rsync. Run rsync from Java.
-* Read/parse rsync command output. How many files are transfered, how many bytes, time, etc...
-
 ## TOC ##
 
-* link:docs/concept-design.adoc[Concept design]
-* link:docs/mount-usb-drive.md[How to mount USB drive]
-* link:docs/setup-data-server.md[How to setup data server]
+* link:docs/mount-usb-drive.adoc[How to mount USB drive (Debian)]
+* link:docs/setup-bc-node.adoc[How to setup bc-node]
+
+## Terminology ##
+
+bc-client:: Host which wants to backup some data.
+bc-node:: Host which acts as backup data storage. bc-client backups data to bc-node
+bc-master:: Host which passively monitors all bc-nodes and bc-clients. Provides an admin interface to review backup solution.
+
