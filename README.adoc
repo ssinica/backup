@@ -12,6 +12,6 @@ WARNING: Being too busy to worry about backup is like being too busy driving a c
 ## Terminology ##
 
 bc-client:: Host which wants to backup some data.
-bc-node:: Host which acts as backup data storage. bc-client backups data to bc-node
-bc-master:: Host which passively monitors all bc-nodes and bc-clients. Provides an admin interface to review backup solution.
+bc-node:: Host which acts as backup data storage. `bc-client` backups data to `bc-node`.
+bc-master:: Host which monitors all `bc-nodes` and `bc-clients`. Provides an admin interface to review backup solution.
 
