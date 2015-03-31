@@ -21,9 +21,9 @@
 
     <repositories>
         <repository>
-            <id>spring-release</id>
-            <name>Spring Maven RELEASE Repository</name>
-            <url>http://repo.springframework.org/release</url>
+            <id>repository.spring.release</id>
+            <name>Spring GA Repository</name>
+            <url>http://repo.spring.io/release</url>
         </repository>
     </repositories>
 
