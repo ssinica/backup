@@ -1,0 +1,21 @@
+app:
+  id: <applicatio id>
+
+destination:
+  items:
+    - id: <destination id>
+      name: <human readable name of destination>
+      type: <one of: SSH, LOCAL, S3>
+      key: <path to private key file used to ssh to bc-node>
+      user: <user used to ssh to bc-node>
+      host: <host name used to ssh to bc-node>
+      dir: <backup directory on bc-node>
+      partialDir: <directory for partial uploads on bc-node>
+
+backup:
+  items:
+    - name: <name of backup item>
+      source: <directory to backup>
+      destination: <destination id>
+      schedule: <single quoted cron expression>
+      timeout: <rsync timeout>
