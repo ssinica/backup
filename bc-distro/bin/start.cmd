@@ -1,0 +1,1 @@
+java -jar ./lib/bc-distro-${project.version}.jar

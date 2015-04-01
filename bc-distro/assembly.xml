@@ -22,6 +22,11 @@
             <directory>config</directory>
             <outputDirectory>/config</outputDirectory>
         </fileSet>
+        <fileSet>
+            <directory>bin</directory>
+            <outputDirectory>/</outputDirectory>
+            <filtered>true</filtered>
+        </fileSet>
     </fileSets>
     <dependencySets>
         <dependencySet>
