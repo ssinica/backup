@@ -1,4 +1,4 @@
-# How to setup bc-node #
+# How to setup SSH bc-destination #
 
 ## Setup SSH ##
 

@@ -4,14 +4,14 @@ image:https://badges.gitter.im/Join%20Chat.svg[link="https://gitter.im/ssinica/b
 
 WARNING: Being too busy to worry about backup is like being too busy driving a car to put on a seatbelt.
 
+## Terminology ##
+
+bc-destination:: The location where the files are copied. Can be: `SSH`, `LOCAL`, `S3`, etc...
+bc-node:: Utility which resides on client computer. `bc-node` backups data to `bc-destination`.
+bc-master:: Host which monitors all `bc-nodes`. Provides an admin interface to review backup solution in general.
+
 ## TOC ##
 
 * link:docs/mount-usb-drive.adoc[How to mount USB drive (Debian)]
-* link:docs/setup-bc-node.adoc[How to setup bc-node]
-
-## Terminology ##
-
-bc-client:: Host which wants to backup some data.
-bc-node:: Host which acts as backup data storage. `bc-client` backups data to `bc-node`.
-bc-master:: Host which monitors all `bc-nodes` and `bc-clients`. Provides an admin interface to review backup solution.
+* link:docs/setup-ssh-bc-destination.adoc[How to setup SSH bc-destination]
 
