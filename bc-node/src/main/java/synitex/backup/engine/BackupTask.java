@@ -8,6 +8,8 @@ import synitex.backup.service.IRsyncService;
 
 import java.util.concurrent.TimeUnit;
 
+import static synitex.backup.Application.appLog;
+
 public class BackupTask implements Runnable {
 
     private static final Logger log = LoggerFactory.getLogger(BackupTask.class);
@@ -28,7 +30,7 @@ public class BackupTask implements Runnable {
         stopWatch.stop();
 
         long time = stopWatch.getTotalTimeMillis();
-        log.info("Backup of {} finished in {} {}.", item,
+        appLog().info("Backup of {} finished in {} {}.", item,
                 time < 1000L ? time : TimeUnit.MILLISECONDS.toSeconds(time),
                 time < 1000L ? "ms." : "sec.");
     }
