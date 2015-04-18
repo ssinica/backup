@@ -8,8 +8,6 @@ import synitex.backup.Application;
 import javax.annotation.PreDestroy;
 import java.awt.EventQueue;
 
-import static synitex.backup.Application.appLog;
-
 @Component
 public class BcNodeGuiSupport implements BcNodeSystemTrayListener {
 
@@ -21,7 +19,7 @@ public class BcNodeGuiSupport implements BcNodeSystemTrayListener {
 
     public void startGui() {
         if("true".equalsIgnoreCase(System.getProperty(HEADLESS_PROP))) {
-            appLog().info("Application is running in headless mode. Will skip GUI setup. If you need GUI, consider setting system property {}=false.", HEADLESS_PROP);
+            log.info("Application is running in headless mode. Will skip GUI setup. If you need GUI, consider setting system property {}=false.", HEADLESS_PROP);
         } else {
             systemTray = new BcNodeSystemTray(this);
             EventQueue.invokeLater(systemTray);

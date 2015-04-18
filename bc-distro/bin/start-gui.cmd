@@ -1,1 +1,1 @@
-start javaw -jar -Djava.awt.headless=false -Xms8M -Xmx32M -Dlogback.configurationFile=./config/logback.xml ./lib/bc-node-${project.version}.jar
+start javaw -Djava.awt.headless=false -Xms8M -Xmx32M -Dlogging.config=./config/logback.xml -jar ./lib/bc-node-${project.version}.jar

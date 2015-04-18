@@ -13,8 +13,6 @@ import synitex.backup.service.IRsyncService;
 
 import java.util.List;
 
-import static synitex.backup.Application.appLog;
-
 @Component
 public class BackupEngine implements SchedulingConfigurer {
 
@@ -39,13 +37,13 @@ public class BackupEngine implements SchedulingConfigurer {
     public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
         this.taskRegistrar = taskRegistrar;
         List<BackupItem> items = backupProperties.getItems();
-        appLog().info("{} backup items are detected.", items.size());
+        log.info("{} backup items are detected.", items.size());
         items.stream().forEach(this::schedulleBackupItem);
     }
 
     private void schedulleBackupItem(BackupItem item) {
         taskRegistrar.addCronTask(new BackupTask(item, rsyncService), item.getSchedule());
-        appLog().info("Schedulled {}.", item);
+        log.info("Schedulled {}.", item);
     }
 
 }

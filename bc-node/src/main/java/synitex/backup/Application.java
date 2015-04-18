@@ -18,14 +18,13 @@ import synitex.backup.prop.AppProperties;
 @EnableScheduling
 public class Application {
 
-    private static final Logger BC_LOGGER = LoggerFactory.getLogger("bcnode");
     private static final Logger log = LoggerFactory.getLogger(Application.class);
 
     private static ConfigurableApplicationContext ctx;
 
     public static void main(String[] args) {
 
-        appLog().info("Starting bc-node...");
+        log.info("Starting bc-node...");
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
 
@@ -44,10 +43,10 @@ public class Application {
         AppProperties appProperties = ctx.getBean(AppProperties.class);
         String appId = appProperties.getId();
         if(StringUtils.isEmpty(appId)) {
-            appLog().error("Application ID not set, will exit.");
+            log.error("Application ID not set, will exit.");
             shutdown();
         } else {
-            appLog().info("Application ID = {}", appId);
+            log.info("Application ID = {}", appId);
 
             // try to start GUI if headless mode is off
             BcNodeGuiSupport guiSupport = ctx.getBean(BcNodeGuiSupport.class);
@@ -55,16 +54,12 @@ public class Application {
         }
 
         stopWatch.stop();
-        appLog().info("Application started in {} s.", stopWatch.getTotalTimeSeconds());
+        log.info("Application started in {} s.", stopWatch.getTotalTimeSeconds());
     }
 
     public static void shutdown() {
-        appLog().info("Shutdown is requested! See you!");
+        log.info("Shutdown is requested! See you!");
         ctx.close();
-    }
-
-    public static Logger appLog() {
-        return BC_LOGGER;
     }
 
 }

@@ -23,8 +23,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
-import static synitex.backup.Application.appLog;
-
 @Service
 public class RsyncService implements IRsyncService {
 
@@ -47,7 +45,7 @@ public class RsyncService implements IRsyncService {
         BackupDestination destination = destinationProvider.find(destinationId);
 
         if(destination == null) {
-            appLog().error("Failed to rsync {}, because destination {} is not registered.", item, destinationId);
+            log.error("Failed to rsync {}, because destination {} is not registered.", item, destinationId);
         } else {
             switch (destination.getType()) {
                 case SSH:
@@ -57,7 +55,7 @@ public class RsyncService implements IRsyncService {
                     localRsync(item, destination);
                     return;
                 default:
-                    appLog().warn("Backup destination {} is not supported yet!", destination.getType().name());
+                    log.warn("Backup destination {} is not supported yet!", destination.getType().name());
             }
         }
     }

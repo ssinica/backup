@@ -20,7 +20,7 @@
         </encoder>
     </appender>
 
-    <logger name="bcnode" level="info">
+    <logger name="synitex.backup" level="info">
         <appender-ref ref="app" />
     </logger>
 
