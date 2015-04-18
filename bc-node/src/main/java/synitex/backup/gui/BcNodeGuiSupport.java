@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import synitex.backup.Application;
 
-import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import java.awt.EventQueue;
 
 @Component
@@ -15,16 +15,25 @@ public class BcNodeGuiSupport implements BcNodeSystemTrayListener {
 
     private static final String HEADLESS_PROP = "java.awt.headless";
 
-    @PostConstruct
-    public void init() {
-        startGui();
-    }
+    private BcNodeSystemTray systemTray;
 
-    private void startGui() {
+    public void startGui() {
         if("true".equalsIgnoreCase(System.getProperty(HEADLESS_PROP))) {
             log.info("Application is running in headless mode. Will skip GUI setup. If you need GUI, consider setting system property {}=false.", HEADLESS_PROP);
         } else {
-            EventQueue.invokeLater(new BcNodeSystemTray(this));
+            systemTray = new BcNodeSystemTray(this);
+            EventQueue.invokeLater(systemTray);
+        }
+    }
+
+    @PreDestroy
+    public void onDestroy() {
+        if(systemTray != null) {
+            try {
+                systemTray.cleanUp();
+            } catch (Exception ex) {
+                // ignore
+            }
         }
     }
 

@@ -1,5 +1,2 @@
-app:
-  id: dev
-
 rsync:
   cmd: rsync

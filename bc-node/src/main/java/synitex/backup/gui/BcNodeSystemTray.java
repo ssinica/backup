@@ -61,7 +61,7 @@ public class BcNodeSystemTray implements Runnable {
         listener.onExitClick();
     }
 
-    private void cleanUp() {
+    public void cleanUp() {
         tray.remove(trayIcon);
     }
 
