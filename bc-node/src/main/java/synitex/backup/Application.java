@@ -32,7 +32,6 @@ public class Application {
         SpringApplication app = new SpringApplicationBuilder()
                 .showBanner(false)
                 .sources(Application.class)
-                .profiles("default")
                 .build();
 
         ctx = app.run(args);
@@ -60,7 +59,7 @@ public class Application {
     }
 
     public static void shutdown() {
-        log.info("Shutdown is requested! See you!");
+        appLog().info("Shutdown is requested! See you!");
         ctx.close();
     }
 
