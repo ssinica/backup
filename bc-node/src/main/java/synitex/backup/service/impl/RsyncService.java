@@ -97,7 +97,7 @@ public class RsyncService implements IRsyncService {
     private List<String> getCommonRsyncCommand(int timeout) {
         return new ArrayList<>(Arrays.asList(
             rsyncProperties.getCmd(),
-            "-v",
+            //"-v",
             "--stats",
             "-zrltD",
             "--chmod=ug=rw,Dug+x,o-xwr",
