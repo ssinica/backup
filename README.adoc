@@ -14,4 +14,25 @@ bc-master:: Host which monitors all `bc-nodes`. Provides an admin interface to r
 
 * link:docs/mount-usb-drive.adoc[How to mount USB drive (Debian)]
 * link:docs/setup-ssh-bc-destination.adoc[How to setup SSH bc-destination]
+* link:docs/releasing-guide.adoc[How to release]
+
+## How to build ##
+
+* Ensure `JAVA_HOME` env variable points to JDK8
+* See `x-build.cmd` as an example build script. Essentially that it does is simple:
++
+----
+mvn clean install
+----
+
+## How to run bc-node from IDE ##
+
+* Main class: `synitex.backup.Application`
+* VM options:
+** `-Djava.awt.headless=false`, for GUI mode
+** `-Djava.awt.headless=true`, for CLI mode
+* Program argumenents: `--spring.profiles.active=dev`. To load configuration file from `./bc-node/config/application-dev.yml`.
++
+You can copy example configuration file `./bc-distro/config/application-example.yml` to `./bc-node/config/application-dev.yml`.
+* Working directory: `{project.path}\bc-node`
 
