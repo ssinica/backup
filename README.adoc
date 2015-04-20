@@ -36,3 +36,13 @@ mvn clean install
 You can copy example configuration file `./bc-distro/config/application-example.yml` to `./bc-node/config/application-dev.yml`.
 * Working directory: `{project.path}\bc-node`
 
+## bc-node configuration ##
+
+See link:bc-distro/config/application-example.yml[application-example.yml] for configuration options.
+
+The main idea:
+
+* Each `bc-node` has uniq `Application Id`. This ID is used in folder layout on bc-destinations. Also in future this ID might be used in bc-master to identify backup clients.
+* Configuration contains a list of bc-destinations. Currently `SSH` and `LOCAL` destinations are supported.
+* Configuration contains a list of backup items. For each backup item you should specify `Destination ID` and link:http://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/scheduling/support/CronSequenceGenerator.html[CRON] expression.
+
