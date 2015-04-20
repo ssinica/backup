@@ -1,0 +1,21 @@
+# How to release new version of bc-node #
+
+* Set release version (for example: `0.0.1`) in `x-set-project-version.cmd` and commit the file to `master` branch.
+* Tag a commit in `master` branch:
++
+----
+git tag -a v0.0.1 -m 'Release 0.0.1'
+----
+* Push tag to remote repo:
++
+----
+git push origin master --tags
+----
+* Checkout a tag:
++
+----
+git checkout tags/v0.0.1
+----
+* Run `x-set-project-version.cmd`. This will change `{project.version}` to `0.0.1`.
+* Run `x-build.cmd`. This will build a ZIP distribution in `./bc-distro/target/bc-distro-0.0.1.zip`.
+* Create a release from a tag `v0.0.1` in GitHub. Write release notes. Attach a distribution.
