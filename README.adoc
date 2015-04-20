@@ -31,7 +31,7 @@ mvn clean install
 * VM options:
 ** `-Djava.awt.headless=false`, for GUI mode
 ** `-Djava.awt.headless=true`, for CLI mode
-* Program argumenents: `--spring.profiles.active=dev`. To load configuration file from `./bc-node/config/application-dev.yml`.
+* Program arguments: `--spring.profiles.active=dev`. To load configuration file from `./bc-node/config/application-dev.yml`.
 +
 You can copy example configuration file `./bc-distro/config/application-example.yml` to `./bc-node/config/application-dev.yml`.
 * Working directory: `{project.path}\bc-node`
