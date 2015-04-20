@@ -1,21 +1,24 @@
 app:
-  id: <applicatio id>
+  id: [Application Id]
+
+rsync:
+  cmd: [Path to rsync executable. Default value: rsync]
 
 destination:
   items:
-    - id: <destination id>
-      name: <human readable name of destination>
-      type: <one of: SSH, LOCAL, S3>
-      key: <path to private key file used to ssh to bc-node>
-      user: <user used to ssh to bc-node>
-      host: <host name used to ssh to bc-node>
-      dir: <backup directory on bc-node>
-      partialDir: <directory for partial uploads on bc-node>
+    - id: [Destination Id]
+      name: [Human readable name of destination]
+      dir: [Path to backup directory on bc-destination]
+      type: [one of: SSH, LOCAL]
+      key: [Path to private key file used to connect to SSH bc-destination]
+      user: [User used to connect to SSH bc-destination]
+      host: [Host used to connect to SSH bc-destination]
+      partialDir: [Optional path to partial uploads on bc-destination. Mostly useful for SSH bc-destinations]
 
 backup:
   items:
-    - name: <name of backup item>
-      source: <directory to backup>
-      destination: <destination id>
-      schedule: <single quoted cron expression>
-      timeout: <rsync timeout>
+    - name: [Name of backup item]
+      source: [Directory to backup]
+      destination: [Destination Id]
+      schedule: [Single quoted CRON expression]
+      timeout: [Rsync timeout]
