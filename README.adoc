@@ -12,31 +12,20 @@ bc-master:: Host which monitors all `bc-nodes`. Provides an admin interface to r
 
 ## TOC ##
 
+* link:docs/release-notes.adoc[Release notes]
 * link:docs/mount-usb-drive.adoc[How to mount USB drive (Debian)]
 * link:docs/setup-ssh-bc-destination.adoc[How to setup SSH bc-destination]
 * link:docs/releasing-guide.adoc[How to release]
 
-## How to build ##
+## Installation ##
 
-* Ensure `JAVA_HOME` env variable points to JDK8
-* See `x-build.cmd` as an example build script. Essentially that it does is simple:
-+
-----
-mvn clean install
-----
+* Download ZIP distribution from link:releases/latest[latest release];
+* Unpack to any location;
+* Create `application.yml` file in `config` directory (see link:bc-distro/config/application-example.yml[application-example.yml] as reference);
+* Setup link:docs/setup-ssh-bc-destination.adoc[SSH bc-destination];
+* Run `start-gui.cmd`.
 
-## How to run bc-node from IDE ##
-
-* Main class: `synitex.backup.Application`
-* VM options:
-** `-Djava.awt.headless=false`, for GUI mode
-** `-Djava.awt.headless=true`, for CLI mode
-* Program arguments: `--spring.profiles.active=dev`. To load configuration file from `./bc-node/config/application-dev.yml`.
-+
-You can copy example configuration file `./bc-distro/config/application-example.yml` to `./bc-node/config/application-dev.yml`.
-* Working directory: `{project.path}\bc-node`
-
-## bc-node configuration ##
+## Configuration ##
 
 See link:bc-distro/config/application-example.yml[application-example.yml] for configuration options.
 
@@ -46,3 +35,22 @@ The main idea:
 * Configuration contains a list of bc-destinations. Currently `SSH` and `LOCAL` destinations are supported.
 * Configuration contains a list of backup items. For each backup item you should specify `Destination ID` and link:http://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/scheduling/support/CronSequenceGenerator.html[CRON] expression.
 
+## Building ##
+
+* Ensure `JAVA_HOME` env variable points to JDK8
+* See `x-build.cmd` as an example build script. Essentially that it does is simple:
++
+----
+mvn clean install
+----
+
+## Running from IDE ##
+
+* Main class: `synitex.backup.Application`
+* VM options:
+** `-Djava.awt.headless=false`, for GUI mode
+** `-Djava.awt.headless=true`, for CLI mode
+* Program arguments: `--spring.profiles.active=dev`. To load configuration file from `./bc-node/config/application-dev.yml`.
++
+You can copy example configuration file `./bc-distro/config/application-example.yml` to `./bc-node/config/application-dev.yml`.
+* Working directory: `{project.path}\bc-node`

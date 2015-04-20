@@ -1,0 +1,8 @@
+# Release notes
+
+## Release 0.1.0 [20.04.2015]
+
+* First ever release;
+* Backup to LOCAL or to SSH destinations;
+* ZIP distribution;
+* Initial version of GUI mode.
