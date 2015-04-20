@@ -19,7 +19,7 @@ bc-master:: Host which monitors all `bc-nodes`. Provides an admin interface to r
 
 ## Installation ##
 
-* Download ZIP distribution from link:releases/latest[latest release];
+* Download ZIP distribution from link:https://github.com/ssinica/backup/releases/latest[latest release];
 * Unpack to any location;
 * Create `application.yml` file in `config` directory (see link:bc-distro/config/application-example.yml[application-example.yml] as reference);
 * Setup link:docs/setup-ssh-bc-destination.adoc[SSH bc-destination];
