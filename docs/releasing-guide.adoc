@@ -4,7 +4,7 @@
 * Tag a commit in `master` branch:
 +
 ----
-git tag -a v0.0.1 -m 'Release 0.0.1'
+git tag -a -m "Release 0.0.1" v0.0.1
 ----
 * Push tag to remote repo:
 +
