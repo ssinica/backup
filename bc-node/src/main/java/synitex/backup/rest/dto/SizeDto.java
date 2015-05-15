@@ -7,8 +7,8 @@ public class SizeDto {
     @JsonProperty("size")
     private long size;
 
-    @JsonProperty("label")
-    private String label;
+    @JsonProperty("measure")
+    private String measure;
 
     @JsonProperty("time")
     private long time;
@@ -21,12 +21,12 @@ public class SizeDto {
         this.size = size;
     }
 
-    public String getLabel() {
-        return label;
+    public String getMeasure() {
+        return measure;
     }
 
-    public void setLabel(String label) {
-        this.label = label;
+    public void setMeasure(String measure) {
+        this.measure = measure;
     }
 
     public long getTime() {

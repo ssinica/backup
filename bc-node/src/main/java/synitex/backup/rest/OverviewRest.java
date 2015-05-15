@@ -61,7 +61,7 @@ public class OverviewRest {
         SizeDto dto = new SizeDto();
         dto.setTime(size.getTime());
         dto.setSize(size.getSize());
-        dto.setLabel(size.getMeasure().getLabel());
+        dto.setMeasure(size.getMeasure().getLabel());
         return dto;
     }
 
