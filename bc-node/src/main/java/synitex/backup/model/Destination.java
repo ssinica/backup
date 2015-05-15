@@ -1,8 +1,8 @@
-package synitex.backup.prop;
+package synitex.backup.model;
 
 import org.springframework.core.style.ToStringCreator;
 
-public class BackupDestination {
+public class Destination {
 
     private String id;
     private String name;
@@ -84,8 +84,8 @@ public class BackupDestination {
 
     @Override
     public boolean equals(Object obj) {
-        if(obj instanceof BackupDestination) {
-            BackupDestination casted = (BackupDestination) obj;
+        if(obj instanceof Destination) {
+            Destination casted = (Destination) obj;
             return id.equals(casted.getId());
         } else {
             return false;

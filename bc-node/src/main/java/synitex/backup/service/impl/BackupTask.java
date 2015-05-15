@@ -1,10 +1,10 @@
-package synitex.backup.engine;
+package synitex.backup.service.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StopWatch;
-import synitex.backup.prop.BackupItem;
-import synitex.backup.service.IRsyncService;
+import synitex.backup.model.BackupSource;
+import synitex.backup.service.IBackupService;
 
 import java.util.concurrent.TimeUnit;
 
@@ -12,19 +12,19 @@ public class BackupTask implements Runnable {
 
     private static final Logger log = LoggerFactory.getLogger(BackupTask.class);
 
-    private final BackupItem item;
-    private final IRsyncService rsyncService;
+    private final BackupSource item;
+    private final IBackupService backupService;
 
-    public BackupTask(BackupItem item, IRsyncService rsyncService) {
+    public BackupTask(BackupSource item, IBackupService backupService) {
         this.item = item;
-        this.rsyncService = rsyncService;
+        this.backupService = backupService;
     }
 
     @Override
     public void run() {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
-        rsyncService.rsync(item);
+        backupService.backup(item);
         stopWatch.stop();
 
         long time = stopWatch.getTotalTimeMillis();

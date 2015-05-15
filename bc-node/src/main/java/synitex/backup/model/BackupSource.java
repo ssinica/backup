@@ -1,11 +1,11 @@
-package synitex.backup.prop;
+package synitex.backup.model;
 
 import org.springframework.core.style.ToStringCreator;
 
-public class BackupItem {
+public class BackupSource {
 
     private String name;
-    private String source;
+    private String path;
     private String destination;
     private String schedule;
     private int timeout = 600;
@@ -18,12 +18,12 @@ public class BackupItem {
         this.name = name;
     }
 
-    public String getSource() {
-        return source;
+    public String getPath() {
+        return path;
     }
 
-    public void setSource(String source) {
-        this.source = source;
+    public void setPath(String path) {
+        this.path = path;
     }
 
     public String getDestination() {
@@ -54,9 +54,9 @@ public class BackupItem {
     public String toString() {
         return new ToStringCreator(this)
                 .append("name", name)
-                //.append("source", source)
-                //.append("destination", destination)
-                //.append("schedule", schedule)
+                .append("path", path)
+                .append("destination", destination)
+                .append("schedule", schedule)
                 .toString();
     }
 }

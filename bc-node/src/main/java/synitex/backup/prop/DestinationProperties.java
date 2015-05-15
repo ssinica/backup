@@ -2,6 +2,7 @@ package synitex.backup.prop;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
+import synitex.backup.model.Destination;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,13 +11,13 @@ import java.util.List;
 @ConfigurationProperties(prefix = "destination")
 public class DestinationProperties {
 
-    private List<BackupDestination> items = new ArrayList<>();
+    private List<Destination> items = new ArrayList<>();
 
-    public List<BackupDestination> getItems() {
+    public List<Destination> getItems() {
         return items;
     }
 
-    public void setItems(List<BackupDestination> items) {
+    public void setItems(List<Destination> items) {
         this.items = items;
     }
 }
