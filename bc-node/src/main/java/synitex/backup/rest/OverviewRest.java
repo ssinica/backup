@@ -32,7 +32,7 @@ public class OverviewRest {
         this.destinationProvider = destinationProvider;
     }
 
-    @RequestMapping("/overview")
+    @RequestMapping(RestUrls.OVERVIEW)
     public OverviewDto overview() {
         OverviewDto dto = new OverviewDto();
         dto.setAppId(appProperties.getId());

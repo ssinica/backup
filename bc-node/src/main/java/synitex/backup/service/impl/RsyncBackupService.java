@@ -23,7 +23,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
-import java.util.stream.Collectors;
 
 @Service
 public class RsyncBackupService implements IBackupService {
@@ -110,14 +109,8 @@ public class RsyncBackupService implements IBackupService {
             String.format("--timeout=%s", timeout)));
     }
 
-    private BackupResult rsync(List<String> command, BackupSource item, Destination destination) {
+    private BackupResult rsync(List<String> command, BackupSource source, Destination destination) {
         try {
-
-            log.info("Starting to rsync {}...", item);
-
-            if(log.isDebugEnabled()) {
-                log.debug("Rsync parse: {}", command.stream().collect(Collectors.joining(" ")));
-            }
 
             Future<ProcessResult> future = new ProcessExecutor()
                     .command(command.toArray(new String[command.size()]))
@@ -130,12 +123,14 @@ public class RsyncBackupService implements IBackupService {
             String out = res.outputUTF8();
             int exitCode = res.getExitValue();
 
-            log.info("Rsync for {} finished with code {}. \n Output: {}", item, exitCode, out);
+            if(log.isDebugEnabled()) {
+                log.debug("Rsync for {} finished with code {}. \n Output: {}. Command: {}", source, exitCode, out, command);
+            }
 
             return rsyncOutputParser.parse(exitCode, out);
 
-        } catch (IOException|InterruptedException| ExecutionException e) {
-            log.error(String.format("Failed to rsync %s.", item), e);
+        } catch (IOException |InterruptedException| ExecutionException e) {
+            log.error(String.format("Failed to rsync %s.", source), e);
             return BackupResult.RUNTIME_EXCEPTION;
         }
     }

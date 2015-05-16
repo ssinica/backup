@@ -2,35 +2,42 @@ package synitex.backup.service.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.StopWatch;
+import synitex.backup.event.BackupFinishedEvent;
+import synitex.backup.event.BackupStartedEvent;
+import synitex.backup.model.BackupResult;
 import synitex.backup.model.BackupSource;
+import synitex.backup.model.Destination;
 import synitex.backup.service.IBackupService;
-
-import java.util.concurrent.TimeUnit;
+import synitex.backup.service.IDestinationService;
+import synitex.backup.service.IEventsService;
 
 public class BackupTask implements Runnable {
 
     private static final Logger log = LoggerFactory.getLogger(BackupTask.class);
 
-    private final BackupSource item;
+    private final BackupSource source;
     private final IBackupService backupService;
+    private final IEventsService eventsService;
+    private final IDestinationService destinationService;
 
-    public BackupTask(BackupSource item, IBackupService backupService) {
-        this.item = item;
+    public BackupTask(BackupSource source,
+                      IBackupService backupService,
+                      IEventsService eventsService,
+                      IDestinationService destinationService) {
+        this.source = source;
         this.backupService = backupService;
+        this.eventsService = eventsService;
+        this.destinationService = destinationService;
     }
 
     @Override
     public void run() {
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
-        backupService.backup(item);
-        stopWatch.stop();
+        Destination destination = destinationService.find(source.getDestination());
+        eventsService.post(new BackupStartedEvent(source, destination, System.currentTimeMillis()));
 
-        long time = stopWatch.getTotalTimeMillis();
-        log.info("Backup of {} finished in {} {}.", item,
-                time < 1000L ? time : TimeUnit.MILLISECONDS.toSeconds(time),
-                time < 1000L ? "ms." : "sec.");
+        BackupResult result = backupService.backup(source);
+
+        eventsService.post(new BackupFinishedEvent(source, destination, System.currentTimeMillis(), result));
     }
 
 }

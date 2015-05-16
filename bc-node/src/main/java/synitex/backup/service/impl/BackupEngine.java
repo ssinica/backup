@@ -7,10 +7,10 @@ import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 import org.springframework.stereotype.Component;
 import synitex.backup.model.BackupSource;
-import synitex.backup.prop.BackupProperties;
 import synitex.backup.service.IBackupService;
 import synitex.backup.service.IBackupSourceService;
 import synitex.backup.service.IDestinationService;
+import synitex.backup.service.IEventsService;
 
 import java.util.List;
 
@@ -20,21 +20,21 @@ public class BackupEngine implements SchedulingConfigurer {
     private static final Logger log = LoggerFactory.getLogger(BackupEngine.class);
 
     private final IBackupService backupService;
-    private final BackupProperties backupProperties;
-    private final IDestinationService destinationProvider;
+    private final IDestinationService destinationService;
     private final IBackupSourceService backupItemService;
+    private final IEventsService eventsService;
 
     private ScheduledTaskRegistrar taskRegistrar;
 
     @Autowired
-    public BackupEngine(BackupProperties backupProperties,
-                        IBackupService backupService,
-                        IDestinationService destinationProvider,
-                        IBackupSourceService backupItemService) {
-        this.backupProperties = backupProperties;
+    public BackupEngine(IBackupService backupService,
+                        IDestinationService destinationService,
+                        IBackupSourceService backupItemService,
+                        IEventsService eventsService) {
         this.backupService = backupService;
-        this.destinationProvider = destinationProvider;
+        this.destinationService = destinationService;
         this.backupItemService = backupItemService;
+        this.eventsService = eventsService;
     }
 
     @Override
@@ -45,9 +45,10 @@ public class BackupEngine implements SchedulingConfigurer {
         items.stream().forEach(this::schedulleBackupItem);
     }
 
-    private void schedulleBackupItem(BackupSource item) {
-        taskRegistrar.addCronTask(new BackupTask(item, backupService), item.getSchedule());
-        log.info("Schedulled {}.", item);
+    private void schedulleBackupItem(BackupSource source) {
+        BackupTask task = new BackupTask(source, backupService, eventsService, destinationService);
+        taskRegistrar.addCronTask(task, source.getSchedule());
+        log.info("Schedulled {}.", source);
     }
 
 }

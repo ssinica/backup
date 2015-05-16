@@ -79,7 +79,11 @@ public class Destination {
 
     @Override
     public String toString() {
-        return new ToStringCreator(this).append("id", id).append("name", name).toString();
+        return new ToStringCreator(this)
+                .append("id", id)
+                .append("name", name)
+                .append("type", type)
+                .toString();
     }
 
     @Override

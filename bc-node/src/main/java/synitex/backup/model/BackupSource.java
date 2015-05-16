@@ -55,8 +55,6 @@ public class BackupSource {
         return new ToStringCreator(this)
                 .append("name", name)
                 .append("path", path)
-                .append("destination", destination)
-                .append("schedule", schedule)
                 .toString();
     }
 }
