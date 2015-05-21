@@ -19,6 +19,12 @@
         <java.version>1.8</java.version>
         <zt-exec.version>1.7</zt-exec.version>
         <guava.version>18.0</guava.version>
+        <jooq.version>3.6.1</jooq.version>
+        <flyway.version>3.2.1</flyway.version>
+
+        <db.url>jdbc:hsqldb:file:~/bc-node/data/backupdb</db.url>
+        <db.user>SA</db.user>
+        <db.schema>BACKUP</db.schema>
     </properties>
 
     <repositories>
@@ -40,6 +46,26 @@
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jooq</groupId>
+                <artifactId>jooq</artifactId>
+                <version>${jooq.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jooq</groupId>
+                <artifactId>jooq-meta</artifactId>
+                <version>${jooq.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jooq</groupId>
+                <artifactId>jooq-codegen</artifactId>
+                <version>${jooq.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-core</artifactId>
+                <version>${flyway.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

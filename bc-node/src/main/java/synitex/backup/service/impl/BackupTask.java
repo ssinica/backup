@@ -33,11 +33,13 @@ public class BackupTask implements Runnable {
     @Override
     public void run() {
         Destination destination = destinationService.find(source.getDestination());
-        eventsService.post(new BackupStartedEvent(source, destination, System.currentTimeMillis()));
+        long startedAt = System.currentTimeMillis();
+        eventsService.post(new BackupStartedEvent(source, destination, startedAt));
 
         BackupResult result = backupService.backup(source);
 
-        eventsService.post(new BackupFinishedEvent(source, destination, System.currentTimeMillis(), result));
+        long finishedAt = System.currentTimeMillis();
+        eventsService.post(new BackupFinishedEvent(source, destination, startedAt, finishedAt, result));
     }
 
 }

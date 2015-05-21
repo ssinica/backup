@@ -3,3 +3,10 @@ server:
 
 rsync:
   cmd: rsync
+
+spring:
+  datasource:
+    url: ${db.url}
+    username: ${db.user}
+    password:
+    driver-class-name: org.hsqldb.jdbcDriver

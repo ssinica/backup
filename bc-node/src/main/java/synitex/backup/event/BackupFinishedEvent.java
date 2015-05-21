@@ -9,11 +9,13 @@ public class BackupFinishedEvent {
     private BackupSource source;
     private Destination destination;
     private long finishedAt;
+    private long startedAt;
     private BackupResult result;
 
-    public BackupFinishedEvent(BackupSource source, Destination destination, long finishedAt, BackupResult result) {
+    public BackupFinishedEvent(BackupSource source, Destination destination, long startedAt, long finishedAt, BackupResult result) {
         this.source = source;
         this.destination = destination;
+        this.startedAt = startedAt;
         this.finishedAt = finishedAt;
         this.result = result;
     }
@@ -33,4 +35,9 @@ public class BackupFinishedEvent {
     public BackupResult getResult() {
         return result;
     }
+
+    public long getStartedAt() {
+        return startedAt;
+    }
+
 }

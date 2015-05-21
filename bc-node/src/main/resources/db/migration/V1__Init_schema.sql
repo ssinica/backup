@@ -1,0 +1,3 @@
+DROP SCHEMA backup IF EXISTS;
+
+CREATE SCHEMA backup;
