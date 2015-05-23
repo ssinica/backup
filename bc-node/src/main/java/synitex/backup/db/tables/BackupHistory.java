@@ -4,19 +4,21 @@
 package synitex.backup.db.tables;
 
 
+import java.util.Arrays;
+import java.util.List;
+
+import javax.annotation.Generated;
+
 import org.jooq.Field;
 import org.jooq.Identity;
 import org.jooq.Table;
 import org.jooq.TableField;
 import org.jooq.UniqueKey;
 import org.jooq.impl.TableImpl;
+
 import synitex.backup.db.Backup;
 import synitex.backup.db.Keys;
 import synitex.backup.db.tables.records.BackupHistoryRecord;
-
-import javax.annotation.Generated;
-import java.util.Arrays;
-import java.util.List;
 
 
 /**
