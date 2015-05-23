@@ -4,21 +4,19 @@
 package synitex.backup.db.tables;
 
 
-import java.util.Arrays;
-import java.util.List;
-
-import javax.annotation.Generated;
-
 import org.jooq.Field;
 import org.jooq.Identity;
 import org.jooq.Table;
 import org.jooq.TableField;
 import org.jooq.UniqueKey;
 import org.jooq.impl.TableImpl;
-
 import synitex.backup.db.Backup;
 import synitex.backup.db.Keys;
 import synitex.backup.db.tables.records.BackupHistoryRecord;
+
+import javax.annotation.Generated;
+import java.util.Arrays;
+import java.util.List;
 
 
 /**
@@ -34,7 +32,7 @@ import synitex.backup.db.tables.records.BackupHistoryRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class BackupHistory extends TableImpl<BackupHistoryRecord> {
 
-	private static final long serialVersionUID = 1515868127;
+	private static final long serialVersionUID = 595721648;
 
 	/**
 	 * The reference instance of <code>BACKUP.BACKUP_HISTORY</code>
@@ -65,19 +63,34 @@ public class BackupHistory extends TableImpl<BackupHistoryRecord> {
 	public final TableField<BackupHistoryRecord, String> SOURCE_ID = createField("SOURCE_ID", org.jooq.impl.SQLDataType.VARCHAR.length(200), this, "");
 
 	/**
-	 * The column <code>BACKUP.BACKUP_HISTORY.STARTEDAT</code>.
+	 * The column <code>BACKUP.BACKUP_HISTORY.STARTED_AT</code>.
 	 */
-	public final TableField<BackupHistoryRecord, Long> STARTEDAT = createField("STARTEDAT", org.jooq.impl.SQLDataType.BIGINT, this, "");
+	public final TableField<BackupHistoryRecord, Long> STARTED_AT = createField("STARTED_AT", org.jooq.impl.SQLDataType.BIGINT, this, "");
 
 	/**
-	 * The column <code>BACKUP.BACKUP_HISTORY.ENDEDAT</code>.
+	 * The column <code>BACKUP.BACKUP_HISTORY.FINISHED_AT</code>.
 	 */
-	public final TableField<BackupHistoryRecord, Long> ENDEDAT = createField("ENDEDAT", org.jooq.impl.SQLDataType.BIGINT, this, "");
+	public final TableField<BackupHistoryRecord, Long> FINISHED_AT = createField("FINISHED_AT", org.jooq.impl.SQLDataType.BIGINT, this, "");
 
 	/**
-	 * The column <code>BACKUP.BACKUP_HISTORY.EXITCODE</code>.
+	 * The column <code>BACKUP.BACKUP_HISTORY.EXIT_CODE</code>.
 	 */
-	public final TableField<BackupHistoryRecord, Integer> EXITCODE = createField("EXITCODE", org.jooq.impl.SQLDataType.INTEGER, this, "");
+	public final TableField<BackupHistoryRecord, Integer> EXIT_CODE = createField("EXIT_CODE", org.jooq.impl.SQLDataType.INTEGER, this, "");
+
+	/**
+	 * The column <code>BACKUP.BACKUP_HISTORY.TRANSFERED_FILES_SIZE</code>.
+	 */
+	public final TableField<BackupHistoryRecord, Long> TRANSFERED_FILES_SIZE = createField("TRANSFERED_FILES_SIZE", org.jooq.impl.SQLDataType.BIGINT, this, "");
+
+	/**
+	 * The column <code>BACKUP.BACKUP_HISTORY.FILES_SIZE</code>.
+	 */
+	public final TableField<BackupHistoryRecord, Long> FILES_SIZE = createField("FILES_SIZE", org.jooq.impl.SQLDataType.BIGINT, this, "");
+
+	/**
+	 * The column <code>BACKUP.BACKUP_HISTORY.TOTAL_TRANSFERED_SIZE</code>.
+	 */
+	public final TableField<BackupHistoryRecord, Long> TOTAL_TRANSFERED_SIZE = createField("TOTAL_TRANSFERED_SIZE", org.jooq.impl.SQLDataType.BIGINT, this, "");
 
 	/**
 	 * Create a <code>BACKUP.BACKUP_HISTORY</code> table reference

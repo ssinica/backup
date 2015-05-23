@@ -25,9 +25,12 @@ public class JdbcBackupDao implements IBackupDao {
         dsl.insertInto(BACKUP_HISTORY)
                 .set(BACKUP_HISTORY.DESTINATION_ID, event.getDestination().getId())
                 .set(BACKUP_HISTORY.SOURCE_ID, event.getSource().getName())
-                .set(BACKUP_HISTORY.STARTEDAT, event.getStartedAt())
-                .set(BACKUP_HISTORY.ENDEDAT, event.getFinishedAt())
-                .set(BACKUP_HISTORY.EXITCODE, event.getResult().getExitCode())
+                .set(BACKUP_HISTORY.STARTED_AT, event.getStartedAt())
+                .set(BACKUP_HISTORY.FINISHED_AT, event.getFinishedAt())
+                .set(BACKUP_HISTORY.EXIT_CODE, event.getResult().getExitCode())
+                .set(BACKUP_HISTORY.FILES_SIZE, event.getResult().getFilesSize())
+                .set(BACKUP_HISTORY.TRANSFERED_FILES_SIZE, event.getResult().getTransferedFilesSize())
+                .set(BACKUP_HISTORY.TOTAL_TRANSFERED_SIZE, event.getResult().getTotalTransferedSize())
                 .execute();
     }
 
