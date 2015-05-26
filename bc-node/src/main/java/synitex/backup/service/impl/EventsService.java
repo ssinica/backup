@@ -25,6 +25,4 @@ public class EventsService implements IEventsService {
         eventBus.post(event);
     }
 
-
-
 }

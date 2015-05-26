@@ -4,12 +4,18 @@ import com.google.common.eventbus.Subscribe;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import synitex.backup.db.tables.records.BackupHistoryRecord;
 import synitex.backup.event.BackupFinishedEvent;
 import synitex.backup.event.BackupStartedEvent;
-import synitex.backup.service.IBackupDao;
+import synitex.backup.dao.IBackupDao;
 import synitex.backup.service.IBackupHistoryService;
 import synitex.backup.service.IEventsService;
+
+import java.util.List;
 
 @Service
 public class BackupHistoryService implements IBackupHistoryService {
@@ -18,9 +24,6 @@ public class BackupHistoryService implements IBackupHistoryService {
 
     private final IEventsService eventsService;
     private final IBackupDao backupDao;
-
-    // http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-sql
-    // http://www.jooq.org/doc/3.6/manual-single-page/#getting-started
 
     @Autowired
     public BackupHistoryService(IEventsService eventsService, IBackupDao backupDao) {
@@ -44,6 +47,13 @@ public class BackupHistoryService implements IBackupHistoryService {
                 event.getResult()));
 
         backupDao.saveBackup(event);
+    }
+
+    @Override
+    public Page<BackupHistoryRecord> findBySource(String sourceId, Pageable pageable) {
+        List<BackupHistoryRecord> records = backupDao.list(sourceId, pageable.getOffset(), pageable.getPageSize());
+        int totalCount = backupDao.count();
+        return new PageImpl<>(records, pageable, totalCount);
     }
 
 }

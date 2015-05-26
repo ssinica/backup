@@ -9,8 +9,8 @@ public class OverviewDto {
     @JsonProperty("applicationId")
     private String appId;
 
-    @JsonProperty("destinations")
-    private List<DestinationDto> destinations;
+    @JsonProperty("sourceOverviews")
+    private List<SourceOverviewDto> sourceOverviews;
 
     public String getAppId() {
         return appId;
@@ -20,11 +20,11 @@ public class OverviewDto {
         this.appId = appId;
     }
 
-    public List<DestinationDto> getDestinations() {
-        return destinations;
+    public List<SourceOverviewDto> getSourceOverviews() {
+        return sourceOverviews;
     }
 
-    public void setDestinations(List<DestinationDto> destinations) {
-        this.destinations = destinations;
+    public void setSourceOverviews(List<SourceOverviewDto> sourceOverviews) {
+        this.sourceOverviews = sourceOverviews;
     }
 }

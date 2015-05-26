@@ -41,7 +41,7 @@ public class BcNodeSystemTray implements Runnable {
         trayIcon = new TrayIcon(image, createTooltipText(state), popup);
         trayIcon.setImageAutoSize(true);
 
-        MenuItem itemWebUI = new MenuItem("Show");
+        MenuItem itemWebUI = new MenuItem("Overview");
         itemWebUI.addActionListener(e -> listener.onShowWebUIClick());
         popup.add(itemWebUI);
 

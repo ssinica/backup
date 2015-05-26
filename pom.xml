@@ -21,6 +21,7 @@
         <guava.version>18.0</guava.version>
         <jooq.version>3.6.1</jooq.version>
         <flyway.version>3.2.1</flyway.version>
+        <spring-data.version>1.10.0.RELEASE</spring-data.version>
 
         <db.url>jdbc:hsqldb:file:~/bc-node/data/backupdb</db.url>
         <db.user>SA</db.user>
@@ -66,6 +67,11 @@
                 <groupId>org.flywaydb</groupId>
                 <artifactId>flyway-core</artifactId>
                 <version>${flyway.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-data-commons</artifactId>
+                <version>${spring-data.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -13,9 +13,6 @@ public class DestinationDto {
     @JsonProperty("type")
     private String type;
 
-    @JsonProperty("size")
-    private SizeDto size;
-
     public String getId() {
         return id;
     }
@@ -40,11 +37,4 @@ public class DestinationDto {
         this.type = type;
     }
 
-    public SizeDto getSize() {
-        return size;
-    }
-
-    public void setSize(SizeDto size) {
-        this.size = size;
-    }
 }

@@ -31,6 +31,9 @@ public class RsyncUtil {
     private RsyncUtil() {}
 
     public static String getErrorByExitCode(int exitCode) {
+        if(exitCode == 0) {
+            return null;
+        }
         if(errors.containsKey(exitCode)) {
             return errors.get(exitCode);
         } else {
