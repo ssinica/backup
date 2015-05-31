@@ -101,7 +101,7 @@ public class SizeService implements ISizeService {
 
             if(exitCode != 0 || "".equals(out)) {
                 log.error(String.format("Failed to calculate size with command: %s", command));
-                return null;
+                return new SizeTimed(-1);
             }
 
             if(log.isDebugEnabled()) {
@@ -117,7 +117,7 @@ public class SizeService implements ISizeService {
 
         } catch (IOException | InterruptedException | ExecutionException | NumberFormatException e) {
             log.error(String.format("Failed to calculate size with command: %s", command), e);
-            return null;
+            return new SizeTimed(-1);
         }
     }
 

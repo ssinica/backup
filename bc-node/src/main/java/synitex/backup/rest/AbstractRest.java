@@ -116,6 +116,7 @@ public abstract class AbstractRest {
     }
 
     protected String formatSize(long bytes, boolean si) {
+        if(bytes < 0) return "undefined";
         int unit = si ? 1000 : 1024;
         if (bytes < unit) return bytes + " B";
         int exp = (int) (Math.log(bytes) / Math.log(unit));
