@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.stereotype.Component;
 import synitex.backup.Application;
-import synitex.backup.rest.RestUrls;
 import synitex.backup.service.IEventsService;
 
 import javax.annotation.PreDestroy;
@@ -61,7 +60,7 @@ public class BcNodeGuiSupport implements BcNodeSystemTrayListener {
 
     @Override
     public void onShowWebUIClick() {
-        String url = String.format("http://localhost:%s%s", serverProperties.getPort(), RestUrls.OVERVIEW);
+        String url = String.format("http://localhost:%s", serverProperties.getPort());
         if(Desktop.isDesktopSupported()) {
             try {
                 Desktop.getDesktop().browse(URI.create(url));

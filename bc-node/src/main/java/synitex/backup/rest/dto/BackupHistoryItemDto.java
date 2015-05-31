@@ -7,14 +7,29 @@ public class BackupHistoryItemDto {
     @JsonProperty("startedAt")
     private long startedAt;
 
+    @JsonProperty("startedAtFormatted")
+    private String startedAtFormatted;
+
+    @JsonProperty("elapsedFromStartFormatted")
+    private String elapsedFromStartFormatted;
+
     @JsonProperty("finishedAt")
     private long finishedAt;
+
+    @JsonProperty("finishedAtFormatted")
+    private String finishedAtFormatted;
+
+    @JsonProperty("duration")
+    private String duration;
 
     @JsonProperty("successful")
     private boolean successful;
 
     @JsonProperty("transferedFilesSize")
     private long transferedFilesSize;
+
+    @JsonProperty("transferedFilesSizeFormatted")
+    private String transferedFilesSizeFormatted;
 
     @JsonProperty("errorMessage")
     private String errorMessage;
@@ -57,5 +72,45 @@ public class BackupHistoryItemDto {
 
     public void setErrorMessage(String errorMessage) {
         this.errorMessage = errorMessage;
+    }
+
+    public String getStartedAtFormatted() {
+        return startedAtFormatted;
+    }
+
+    public void setStartedAtFormatted(String startedAtFormatted) {
+        this.startedAtFormatted = startedAtFormatted;
+    }
+
+    public String getFinishedAtFormatted() {
+        return finishedAtFormatted;
+    }
+
+    public void setFinishedAtFormatted(String finishedAtFormatted) {
+        this.finishedAtFormatted = finishedAtFormatted;
+    }
+
+    public String getTransferedFilesSizeFormatted() {
+        return transferedFilesSizeFormatted;
+    }
+
+    public void setTransferedFilesSizeFormatted(String transferedFilesSizeFormatted) {
+        this.transferedFilesSizeFormatted = transferedFilesSizeFormatted;
+    }
+
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
+    }
+
+    public String getElapsedFromStartFormatted() {
+        return elapsedFromStartFormatted;
+    }
+
+    public void setElapsedFromStartFormatted(String elapsedFromStartFormatted) {
+        this.elapsedFromStartFormatted = elapsedFromStartFormatted;
     }
 }

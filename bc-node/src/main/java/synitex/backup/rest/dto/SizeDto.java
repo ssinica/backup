@@ -7,11 +7,17 @@ public class SizeDto {
     @JsonProperty("size")
     private long size;
 
-    @JsonProperty("measure")
-    private String measure;
+    @JsonProperty("sizeFormatted")
+    private String sizeFormatted;
 
     @JsonProperty("time")
     private long time;
+
+    @JsonProperty("timeFormatted")
+    private String timeFormatted;
+
+    @JsonProperty("timeElapsedFormatted")
+    private String timeElapsedFormatted;
 
     public long getSize() {
         return size;
@@ -21,19 +27,35 @@ public class SizeDto {
         this.size = size;
     }
 
-    public String getMeasure() {
-        return measure;
-    }
-
-    public void setMeasure(String measure) {
-        this.measure = measure;
-    }
-
     public long getTime() {
         return time;
     }
 
     public void setTime(long time) {
         this.time = time;
+    }
+
+    public String getSizeFormatted() {
+        return sizeFormatted;
+    }
+
+    public void setSizeFormatted(String sizeFormatted) {
+        this.sizeFormatted = sizeFormatted;
+    }
+
+    public String getTimeFormatted() {
+        return timeFormatted;
+    }
+
+    public void setTimeFormatted(String timeFormatted) {
+        this.timeFormatted = timeFormatted;
+    }
+
+    public String getTimeElapsedFormatted() {
+        return timeElapsedFormatted;
+    }
+
+    public void setTimeElapsedFormatted(String timeElapsedFormatted) {
+        this.timeElapsedFormatted = timeElapsedFormatted;
     }
 }

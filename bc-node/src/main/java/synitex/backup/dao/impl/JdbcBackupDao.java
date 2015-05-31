@@ -55,6 +55,19 @@ public class JdbcBackupDao implements IBackupDao {
 
     @Override
     @Transactional(readOnly = true)
+    public List<BackupHistoryRecord> list(String sourceId, long timeInPast) {
+        return dsl.select()
+                .from(BACKUP_HISTORY)
+                .where(BACKUP_HISTORY.SOURCE_ID.eq(sourceId))
+                    .and(BACKUP_HISTORY.STARTED_AT.greaterThan(timeInPast))
+                    .and(BACKUP_HISTORY.TRANSFERED_FILES_SIZE.greaterThan(0L).or(BACKUP_HISTORY.EXIT_CODE.notEqual(0)))
+                .orderBy(BACKUP_HISTORY.STARTED_AT.desc())
+                .fetch()
+                .into(BACKUP_HISTORY);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public int count() {
         return dsl.fetchCount(BACKUP_HISTORY);
     }

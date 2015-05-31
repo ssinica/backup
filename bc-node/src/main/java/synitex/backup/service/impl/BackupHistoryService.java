@@ -8,13 +8,15 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import synitex.backup.dao.IBackupDao;
 import synitex.backup.db.tables.records.BackupHistoryRecord;
 import synitex.backup.event.BackupFinishedEvent;
 import synitex.backup.event.BackupStartedEvent;
-import synitex.backup.dao.IBackupDao;
 import synitex.backup.service.IBackupHistoryService;
 import synitex.backup.service.IEventsService;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 
 @Service
@@ -56,4 +58,9 @@ public class BackupHistoryService implements IBackupHistoryService {
         return new PageImpl<>(records, pageable, totalCount);
     }
 
+    @Override
+    public List<BackupHistoryRecord> findBySourceForLastWeek(String sourceId) {
+        long weekAgo = LocalDateTime.now().minusDays(7).toEpochSecond(ZoneOffset.UTC);
+        return backupDao.list(sourceId, weekAgo);
+    }
 }

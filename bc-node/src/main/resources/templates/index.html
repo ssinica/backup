@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>backup</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/font-awesome.min.css" rel="stylesheet" />
+    <link href="css/backup.css" rel="stylesheet" />
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.min.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+
+    <div class="jumbotron">
+        <div class="container">
+            <h1>Backup [<span th:text="${appId}">Application Id</span>]</h1>
+            <p>Overview the state of your backup for last week.</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row" th:each="sourceOverview : ${sourceOverviews}">
+            <div class="row bc-header">
+                <div class="col-md-5">
+                    <h2 th:utext="|${sourceOverview.source.id} <small>${sourceOverview.source.path}</small>|">Source</h2>
+                    <div class="bc-size">
+                        <span th:utext="|${sourceOverview.sourceSize.sizeFormatted} <small>(${sourceOverview.sourceSize.timeElapsedFormatted} ago)</small>|">12 GB (1 min ago)</span>
+                    </div>
+                </div>
+                <div class="col-md-2 bc-header-ic">
+                    <h1><i class="fa fa-exchange bc-sync-icon"></i></h1>
+                </div>
+                <div class="col-md-5">
+                    <h2 th:utext="|${sourceOverview.destination.id} <small>${sourceOverview.destination.name}</small>|">Destination</h2>
+                    <div class="bc-size">
+                        <span th:utext="|${sourceOverview.destinationSize.sizeFormatted} <small>(${sourceOverview.destinationSize.timeElapsedFormatted} ago)</small>|">12 GB (1 min ago)</span>
+                    </div>
+                </div>
+             </div>
+            <div class="row bc-hi-tbl-w">
+                <div class="col-md-12">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Started At</th>
+                                <th>Elapsed from start</th>
+                                <th>Duration</th>
+                                <th>Success</th>
+                                <th>Transfered files size</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="history: ${sourceOverview.backupHistoryItems}" th:class="${history.successful} ? '' : 'danger'">
+                                <td th:text="${history.startedAtFormatted}">23.05.2015 12:00</td>
+                                <td th:text="|${history.elapsedFromStartFormatted} ago|">23h 12m ago</td>
+                                <td th:text="${history.duration}">12 m</td>
+                                <td th:text="${history.successful}">true</td>
+                                <td th:text="${history.transferedFilesSizeFormatted}">12 GB</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <footer>
+            <p>© Synitex 2015</p>
+        </footer>
+    </div>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+</body>
+</html>

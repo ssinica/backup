@@ -54,3 +54,10 @@ mvn clean install
 +
 You can copy example configuration file `./bc-distro/config/application-example.yml` to `./bc-node/config/application-dev.yml`.
 * Working directory: `{project.path}\bc-node`
+
+## Misc links ##
+
+* http://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-developing-web-applications.html
+* https://angularjs.org/
+* http://www.thymeleaf.org/doc/articles/springmvcaccessdata.html
+* http://www.thymeleaf.org/doc/tutorials/2.1/usingthymeleaf.html

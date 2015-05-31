@@ -1,6 +1,5 @@
 package synitex.backup.service.impl;
 
-import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,19 +7,15 @@ import org.springframework.stereotype.Service;
 import org.zeroturnaround.exec.ProcessExecutor;
 import org.zeroturnaround.exec.ProcessResult;
 import org.zeroturnaround.exec.stream.slf4j.Slf4jStream;
+import synitex.backup.model.BackupSource;
 import synitex.backup.model.Destination;
 import synitex.backup.model.DestinationType;
-import synitex.backup.model.BackupSource;
 import synitex.backup.model.SizeTimed;
-import synitex.backup.model.SizeMeasure;
 import synitex.backup.prop.AppProperties;
 import synitex.backup.service.ISizeService;
 import synitex.backup.util.CmdUtils;
 
 import java.io.IOException;
-import java.net.URI;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.concurrent.ExecutionException;
@@ -68,16 +63,24 @@ public class SizeService implements ISizeService {
 
     @Override
     public SizeTimed size(BackupSource backupSource, Destination destination) {
-        List<Path> sourcePaths = Lists.newArrayList(Paths.get(URI.create(backupSource.getPath())).iterator());
-        String sourceDir = sourcePaths.get(sourcePaths.size() - 1).toString();
-        return duBasedSize(String.format("ssh -i %s -o StrictHostKeyChecking=false %s@%s %s %s/%s/%s",
-                destination.getKey(),
-                destination.getUser(),
-                destination.getHost(),
-                DU_START,
-                destination.getDir(),
-                appProperties.getId(),
-                sourceDir));
+        String sourcePath = backupSource.getPath();
+        int idx = Math.max(sourcePath.lastIndexOf("/"), sourcePath.lastIndexOf("\\"));
+        String sourceDir = sourcePath.substring(idx + 1);
+        switch (destination.getType()) {
+            case SSH:
+                return duBasedSize(String.format("ssh -i %s -o StrictHostKeyChecking=false %s@%s %s %s/%s/%s",
+                        destination.getKey(),
+                        destination.getUser(),
+                        destination.getHost(),
+                        DU_START,
+                        destination.getDir(),
+                        appProperties.getId(),
+                        sourceDir));
+            case LOCAL:
+                return size(String.format("%s/%s/%s", destination.getDir(), appProperties.getId(), sourceDir));
+            default:
+                throw new UnsupportedOperationException(String.format("Destination type %s is not supported yet.", destination.getType().name()));
+        }
     }
 
     private SizeTimed duBasedSize(String command) {
@@ -110,7 +113,7 @@ public class SizeService implements ISizeService {
 
             String sizeAsString = new StringTokenizer(out, "\t").nextToken();
             Long sizeInBytes = Long.valueOf(sizeAsString);
-            return new SizeTimed(sizeInBytes, SizeMeasure.BYTES);
+            return new SizeTimed(sizeInBytes);
 
         } catch (IOException | InterruptedException | ExecutionException | NumberFormatException e) {
             log.error(String.format("Failed to calculate size with command: %s", command), e);

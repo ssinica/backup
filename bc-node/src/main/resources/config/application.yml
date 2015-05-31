@@ -10,3 +10,6 @@ spring:
     username: ${db.user}
     password:
     driver-class-name: org.hsqldb.jdbcDriver
+  thymeleaf:
+    cache: false
+    mode: LEGACYHTML5
