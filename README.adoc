@@ -17,6 +17,10 @@ bc-master:: Host which monitors all `bc-nodes`. Provides an admin interface to r
 * link:docs/setup-ssh-bc-destination.adoc[How to setup SSH bc-destination]
 * link:docs/releasing-guide.adoc[How to release]
 
+## Screenshots ##
+
+image::docs/images/backup-ui.png[Overview]
+
 ## Installation ##
 
 * Download ZIP distribution from link:https://github.com/ssinica/backup/releases/latest[latest release];
