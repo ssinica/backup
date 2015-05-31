@@ -2,14 +2,21 @@ app:
   id: [Application Id]
 
 rsync:
-  cmd: [Path to rsync executable. Default value: rsync]
+  cmd: [Path to rsync executable. Default value = rsync]
+
+server:
+  port: [Server port. Default value = 9999]
+
+spring:
+  datasource:
+    url: [Default value = jdbc:hsqldb:file:~/bc-node/data/backupdb]
 
 destination:
-  sources:
+  items:
     - id: [Destination Id]
       name: [Human readable name of destination]
       dir: [Path to backup directory on bc-destination]
-      type: [one of: SSH, LOCAL]
+      type: [one of = SSH, LOCAL]
       key: [Path to private key file used to connect to SSH bc-destination]
       user: [User used to connect to SSH bc-destination]
       host: [Host used to connect to SSH bc-destination]
@@ -21,4 +28,4 @@ backup:
       path: [Directory to backup]
       destination: [Destination Id]
       schedule: [Single quoted CRON expression]
-      timeout: [Rsync timeout]
+      timeout: [Rsync timeout. Default value (sec) = 600]
