@@ -1,5 +1,17 @@
 # Release notes
 
+## Release 0.2.0 [31.05.2015]
+
+* A lot of refactoring;
+* Start using Guava's EventBus;
+* Start to use jooq and flyway;
+* Save backups hisotry in embedded hsqldb;
+* Initial version of REST API: Overview Rest Endpoint;
+* Initial version of WEB UI. Overview page with list of all sources and backup hisotry for last week;
+* Initial version of SizeService to collect size information about sources and destinations;
+* New system tray icon, which change state when backup is running;
+* Open Overview WEB page from system tray menu.
+
 ## Release 0.1.0 [20.04.2015]
 
 * First ever release;
