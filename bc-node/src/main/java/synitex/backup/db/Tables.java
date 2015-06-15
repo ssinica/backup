@@ -7,6 +7,7 @@ package synitex.backup.db;
 import javax.annotation.Generated;
 
 import synitex.backup.db.tables.BackupHistory;
+import synitex.backup.db.tables.SizeHistory;
 
 
 /**
@@ -26,4 +27,9 @@ public class Tables {
 	 * The table BACKUP.BACKUP_HISTORY
 	 */
 	public static final BackupHistory BACKUP_HISTORY = synitex.backup.db.tables.BackupHistory.BACKUP_HISTORY;
+
+	/**
+	 * The table BACKUP.SIZE_HISTORY
+	 */
+	public static final SizeHistory SIZE_HISTORY = synitex.backup.db.tables.SizeHistory.SIZE_HISTORY;
 }

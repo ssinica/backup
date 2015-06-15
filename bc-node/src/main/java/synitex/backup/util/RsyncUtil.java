@@ -37,7 +37,7 @@ public class RsyncUtil {
         if(errors.containsKey(exitCode)) {
             return errors.get(exitCode);
         } else {
-            throw new IllegalArgumentException(String.format("No error message is registered for exit code = %s", exitCode));
+            return String.format("Rsync exited with code %s.", exitCode);
         }
     }
 

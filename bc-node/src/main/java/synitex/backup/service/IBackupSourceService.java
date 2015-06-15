@@ -8,6 +8,6 @@ public interface IBackupSourceService {
 
     List<BackupSource> list();
 
-    BackupSource find(String name);
+    BackupSource find(String id);
 
 }

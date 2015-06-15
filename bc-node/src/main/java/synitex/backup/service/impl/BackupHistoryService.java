@@ -59,8 +59,8 @@ public class BackupHistoryService implements IBackupHistoryService {
     }
 
     @Override
-    public List<BackupHistoryRecord> findBySourceForLastWeek(String sourceId) {
+    public List<BackupHistoryRecord> findBySourceForLastWeek(String sourceId, String destinationId) {
         long weekAgo = LocalDateTime.now().minusDays(7).toEpochSecond(ZoneOffset.UTC);
-        return backupDao.list(sourceId, weekAgo);
+        return backupDao.list(sourceId, destinationId, weekAgo);
     }
 }

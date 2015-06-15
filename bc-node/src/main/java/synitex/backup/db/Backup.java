@@ -14,6 +14,7 @@ import org.jooq.Table;
 import org.jooq.impl.SchemaImpl;
 
 import synitex.backup.db.tables.BackupHistory;
+import synitex.backup.db.tables.SizeHistory;
 
 
 /**
@@ -29,7 +30,7 @@ import synitex.backup.db.tables.BackupHistory;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Backup extends SchemaImpl {
 
-	private static final long serialVersionUID = 1243063068;
+	private static final long serialVersionUID = -2136407868;
 
 	/**
 	 * The reference instance of <code>BACKUP</code>
@@ -52,6 +53,7 @@ public class Backup extends SchemaImpl {
 
 	private final List<Table<?>> getTables0() {
 		return Arrays.<Table<?>>asList(
-			BackupHistory.BACKUP_HISTORY);
+			BackupHistory.BACKUP_HISTORY,
+			SizeHistory.SIZE_HISTORY);
 	}
 }

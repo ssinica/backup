@@ -10,6 +10,6 @@ public interface IBackupHistoryService {
 
     Page<BackupHistoryRecord> findBySource(String sourceId, Pageable pageable);
 
-    List<BackupHistoryRecord> findBySourceForLastWeek(String sourceId);
+    List<BackupHistoryRecord> findBySourceForLastWeek(String sourceId, String destinationId);
 
 }

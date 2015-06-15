@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import synitex.backup.model.Destination;
-import synitex.backup.prop.DestinationProperties;
+import synitex.backup.prop.BackupProperties;
 import synitex.backup.service.IDestinationService;
 
 import java.util.List;
@@ -16,16 +16,16 @@ public class DestinationService implements IDestinationService {
 
     private static final Logger log = LoggerFactory.getLogger(DestinationService.class);
 
-    private final DestinationProperties destinationProperties;
+    private final BackupProperties backupProperties;
 
     @Autowired
-    public DestinationService(DestinationProperties destinationProperties) {
-        this.destinationProperties = destinationProperties;
+    public DestinationService(BackupProperties backupProperties) {
+        this.backupProperties = backupProperties;
     }
 
     @Override
     public Destination find(String id) {
-        Optional<Destination> item = destinationProperties.getItems()
+        Optional<Destination> item = backupProperties.getDestinations()
                 .stream()
                 .filter(d -> id.equals(d.getId()))
                 .findFirst();
@@ -34,7 +34,7 @@ public class DestinationService implements IDestinationService {
 
     @Override
     public List<Destination> list() {
-        return destinationProperties.getItems();
+        return backupProperties.getDestinations();
     }
 
 }

@@ -25,9 +25,9 @@ public class BackupSourceService implements IBackupSourceService {
     }
 
     @Override
-    public BackupSource find(String name) {
+    public BackupSource find(String id) {
         Optional<BackupSource> item = backupProperties.getSources().stream()
-                .filter(d -> name.equals(d.getName()))
+                .filter(d -> id.equals(d.getId()))
                 .findFirst();
         return item.isPresent() ? item.get() : null;
     }

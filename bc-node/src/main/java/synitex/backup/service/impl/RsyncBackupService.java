@@ -10,6 +10,7 @@ import org.zeroturnaround.exec.ProcessResult;
 import org.zeroturnaround.exec.stream.slf4j.Slf4jStream;
 import synitex.backup.model.BackupResult;
 import synitex.backup.model.BackupSource;
+import synitex.backup.model.BackupTask;
 import synitex.backup.model.Destination;
 import synitex.backup.prop.AppProperties;
 import synitex.backup.prop.RsyncProperties;
@@ -46,35 +47,28 @@ public class RsyncBackupService implements IBackupService {
     }
 
     @Override
-    public BackupResult backup(BackupSource item) {
-        String destinationId = item.getDestination();
-        Destination destination = destinationProvider.find(destinationId);
-
-        if(destination == null) {
-            log.error("Failed to rsync {}, because destination {} is not registered.", item, destinationId);
-        } else {
-            switch (destination.getType()) {
-                case SSH:
-                    return sshRsync(item, destination);
-                case LOCAL:
-                    return localRsync(item, destination);
-                default:
-                    log.warn("Backup destination {} is not supported yet!", destination.getType().name());
-            }
+    public BackupResult backup(BackupSource item, Destination destination, BackupTask task) {
+        switch (destination.getType()) {
+            case SSH:
+                return sshRsync(item, destination, task);
+            case LOCAL:
+                return localRsync(item, destination, task);
+            default:
+                log.warn("Backup destination {} is not supported yet!", destination.getType().name());
+                return null;
         }
-        return null;
     }
 
-    private BackupResult localRsync(BackupSource item, Destination destination) {
-        List<String> command = getCommonRsyncCommand(item.getTimeout());
-        command.add(item.getPath());
+    private BackupResult localRsync(BackupSource source, Destination destination, BackupTask task) {
+        List<String> command = getCommonRsyncCommand(task.getTimeout());
+        command.add(source.getPath());
         command.add(String.format("%s/%s", destination.getDir(), appProperties.getId()));
-        return rsync(command, item, destination);
+        return rsync(command, source);
     }
 
-    private BackupResult sshRsync(BackupSource item, Destination destination) {
+    private BackupResult sshRsync(BackupSource source, Destination destination, BackupTask task) {
 
-        List<String> command = getCommonRsyncCommand(item.getTimeout());
+        List<String> command = getCommonRsyncCommand(task.getTimeout());
 
         // optional partial dir
         if(!StringUtils.isEmpty(destination.getPartialDir())) {
@@ -91,12 +85,12 @@ public class RsyncBackupService implements IBackupService {
         String sshArgs = String.format("\"ssh -i %s -o StrictHostKeyChecking=false\"",
                 destination.getKey());
 
-        command.add(item.getPath());
+        command.add(source.getPath());
         command.add("-e");
         command.add(sshArgs);
         command.add(sshDestination);
 
-        return rsync(command, item, destination);
+        return rsync(command, source);
     }
 
     private List<String> getCommonRsyncCommand(int timeout) {
@@ -109,7 +103,7 @@ public class RsyncBackupService implements IBackupService {
             String.format("--timeout=%s", timeout)));
     }
 
-    private BackupResult rsync(List<String> command, BackupSource source, Destination destination) {
+    private BackupResult rsync(List<String> command, BackupSource source) {
         try {
 
             Future<ProcessResult> future = new ProcessExecutor()

@@ -1,17 +1,16 @@
 package synitex.backup.service;
 
-import synitex.backup.model.Destination;
 import synitex.backup.model.BackupSource;
-import synitex.backup.model.SizeTimed;
+import synitex.backup.model.Destination;
 
 public interface ISizeService {
 
-    SizeTimed size(String path);
+    long size(String path);
 
-    SizeTimed size(Destination destination);
+    long size(Destination destination);
 
-    SizeTimed size(BackupSource backupSource);
+    long size(BackupSource backupSource);
 
-    SizeTimed size(BackupSource backupSource, Destination destination);
+    long size(BackupSource backupSource, Destination destination);
 
 }

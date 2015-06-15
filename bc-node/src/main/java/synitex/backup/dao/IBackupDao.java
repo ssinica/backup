@@ -11,7 +11,7 @@ public interface IBackupDao {
 
     List<BackupHistoryRecord> list(String sourceId, int offset, int limit);
 
-    List<BackupHistoryRecord> list(String sourceId, long timeInPast);
+    List<BackupHistoryRecord> list(String sourceId, String destinationId, long timeInPast);
 
     int count();
 

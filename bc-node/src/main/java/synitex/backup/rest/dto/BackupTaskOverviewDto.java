@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-public class SourceOverviewDto {
+public class BackupTaskOverviewDto {
 
     @JsonProperty("source")
     private SourceDto source;

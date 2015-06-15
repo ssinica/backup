@@ -11,8 +11,8 @@ spring:
   datasource:
     url: [Default value = jdbc:hsqldb:file:~/bc-node/data/backupdb]
 
-destination:
-  items:
+backup:
+  destinations:
     - id: [Destination Id]
       name: [Human readable name of destination]
       dir: [Path to backup directory on bc-destination]
@@ -21,11 +21,13 @@ destination:
       user: [User used to connect to SSH bc-destination]
       host: [Host used to connect to SSH bc-destination]
       partialDir: [Optional path to partial uploads on bc-destination. Mostly useful for SSH bc-destinations]
-
-backup:
   sources:
-    - name: [Name of backup item]
+    - id: [ID of backup item]
       path: [Directory to backup]
       destination: [Destination Id]
+  tasks:
+    - source: [Source ID]
+      destination: [Destination ID]
       schedule: [Single quoted CRON expression]
       timeout: [Rsync timeout. Default value (sec) = 600]
+      heartbeat: [How othen to check backup. Default value (min) = 10]

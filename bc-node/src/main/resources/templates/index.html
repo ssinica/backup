@@ -28,21 +28,21 @@
     </div>
 
     <div class="container">
-        <div class="row" th:each="sourceOverview : ${sourceOverviews}">
+        <div class="row" th:each="overview : ${taskOverviews}">
             <div class="row bc-header">
                 <div class="col-md-5">
-                    <h2 th:utext="|${sourceOverview.source.id} <small>${sourceOverview.source.path}</small>|">Source</h2>
+                    <h2 th:utext="|${overview.source.id} <small>${overview.source.path}</small>|">Source</h2>
                     <div class="bc-size">
-                        <span th:utext="|${sourceOverview.sourceSize.sizeFormatted} <small>(${sourceOverview.sourceSize.timeElapsedFormatted} ago)</small>|">12 GB (1 min ago)</span>
+                        <span th:utext="|${overview.sourceSize.sizeFormatted} <small>(${overview.sourceSize.timeElapsedFormatted} ago)</small>|">12 GB (1 min ago)</span>
                     </div>
                 </div>
                 <div class="col-md-2 bc-header-ic">
                     <h1><i class="fa fa-exchange bc-sync-icon"></i></h1>
                 </div>
                 <div class="col-md-5">
-                    <h2 th:utext="|${sourceOverview.destination.id} <small>${sourceOverview.destination.name}</small>|">Destination</h2>
+                    <h2 th:utext="|${overview.destination.id} <small>${overview.destination.name}</small>|">Destination</h2>
                     <div class="bc-size">
-                        <span th:utext="|${sourceOverview.destinationSize.sizeFormatted} <small>(${sourceOverview.destinationSize.timeElapsedFormatted} ago)</small>|">12 GB (1 min ago)</span>
+                        <span th:utext="|${overview.destinationSize.sizeFormatted} <small>(${overview.destinationSize.timeElapsedFormatted} ago)</small>|">12 GB (1 min ago)</span>
                     </div>
                 </div>
              </div>
@@ -59,7 +59,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr th:each="history: ${sourceOverview.backupHistoryItems}" th:class="${history.successful} ? '' : 'danger'">
+                            <tr th:each="history: ${overview.backupHistoryItems}" th:class="${history.successful} ? '' : 'danger'">
                                 <td th:text="${history.startedAtFormatted}">23.05.2015 12:00</td>
                                 <td th:text="|${history.elapsedFromStartFormatted} ago|">23h 12m ago</td>
                                 <td th:text="${history.duration}">12 m</td>

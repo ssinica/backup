@@ -10,7 +10,6 @@ import org.zeroturnaround.exec.stream.slf4j.Slf4jStream;
 import synitex.backup.model.BackupSource;
 import synitex.backup.model.Destination;
 import synitex.backup.model.DestinationType;
-import synitex.backup.model.SizeTimed;
 import synitex.backup.prop.AppProperties;
 import synitex.backup.service.ISizeService;
 import synitex.backup.util.CmdUtils;
@@ -36,12 +35,12 @@ public class SizeService implements ISizeService {
     }
 
     @Override
-    public SizeTimed size(String path) {
+    public long size(String path) {
         return duBasedSize(String.format("%s %s", DU_START, path));
     }
 
     @Override
-    public SizeTimed size(Destination destination) {
+    public long size(Destination destination) {
         DestinationType destinationType = destination.getType();
         switch (destinationType) {
             case LOCAL: return size(String.format("%s/%s", destination.getDir(), appProperties.getId()));
@@ -57,12 +56,12 @@ public class SizeService implements ISizeService {
     }
 
     @Override
-    public SizeTimed size(BackupSource backupSource) {
+    public long size(BackupSource backupSource) {
         return size(backupSource.getPath());
     }
 
     @Override
-    public SizeTimed size(BackupSource backupSource, Destination destination) {
+    public long size(BackupSource backupSource, Destination destination) {
         String sourcePath = backupSource.getPath();
         int idx = Math.max(sourcePath.lastIndexOf("/"), sourcePath.lastIndexOf("\\"));
         String sourceDir = sourcePath.substring(idx + 1);
@@ -83,7 +82,7 @@ public class SizeService implements ISizeService {
         }
     }
 
-    private SizeTimed duBasedSize(String command) {
+    private long duBasedSize(String command) {
         try {
 
             List<String> cmd = CmdUtils.parse(command);
@@ -101,7 +100,7 @@ public class SizeService implements ISizeService {
 
             if(exitCode != 0 || "".equals(out)) {
                 log.error(String.format("Failed to calculate size with command: %s", command));
-                return new SizeTimed(-1);
+                return -1L;
             }
 
             if(log.isDebugEnabled()) {
@@ -112,12 +111,11 @@ public class SizeService implements ISizeService {
             }
 
             String sizeAsString = new StringTokenizer(out, "\t").nextToken();
-            Long sizeInBytes = Long.valueOf(sizeAsString);
-            return new SizeTimed(sizeInBytes);
+            return Long.valueOf(sizeAsString);
 
         } catch (IOException | InterruptedException | ExecutionException | NumberFormatException e) {
             log.error(String.format("Failed to calculate size with command: %s", command), e);
-            return new SizeTimed(-1);
+            return -1L;
         }
     }
 

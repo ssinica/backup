@@ -12,26 +12,20 @@ import java.util.List;
 
 import static synitex.backup.db.tables.BackupHistory.BACKUP_HISTORY;
 
-/**
- * http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-sql
- * http://www.jooq.org/doc/3.6/manual-single-page/#getting-started
- */
 @Service
-public class JdbcBackupDao implements IBackupDao {
-
-    private final DSLContext dsl;
+public class JdbcBackupDao extends AbstractJdbcDao implements IBackupDao {
 
     @Autowired
     public JdbcBackupDao(DSLContext dsl) {
-        this.dsl = dsl;
+        super(dsl);
     }
 
     @Override
     @Transactional
     public void saveBackup(BackupFinishedEvent event) {
-        dsl.insertInto(BACKUP_HISTORY)
+        getDsl().insertInto(BACKUP_HISTORY)
                 .set(BACKUP_HISTORY.DESTINATION_ID, event.getDestination().getId())
-                .set(BACKUP_HISTORY.SOURCE_ID, event.getSource().getName())
+                .set(BACKUP_HISTORY.SOURCE_ID, event.getSource().getId())
                 .set(BACKUP_HISTORY.STARTED_AT, event.getStartedAt())
                 .set(BACKUP_HISTORY.FINISHED_AT, event.getFinishedAt())
                 .set(BACKUP_HISTORY.EXIT_CODE, event.getResult().getExitCode())
@@ -44,7 +38,7 @@ public class JdbcBackupDao implements IBackupDao {
     @Override
     @Transactional(readOnly = true)
     public List<BackupHistoryRecord> list(String sourceId, int offset, int limit) {
-        return dsl.select()
+        return getDsl().select()
                 .from(BACKUP_HISTORY)
                 .where(BACKUP_HISTORY.SOURCE_ID.eq(sourceId))
                 .orderBy(BACKUP_HISTORY.STARTED_AT.desc())
@@ -55,10 +49,11 @@ public class JdbcBackupDao implements IBackupDao {
 
     @Override
     @Transactional(readOnly = true)
-    public List<BackupHistoryRecord> list(String sourceId, long timeInPast) {
-        return dsl.select()
+    public List<BackupHistoryRecord> list(String sourceId, String destinationId, long timeInPast) {
+        return getDsl().select()
                 .from(BACKUP_HISTORY)
                 .where(BACKUP_HISTORY.SOURCE_ID.eq(sourceId))
+                    .and(BACKUP_HISTORY.DESTINATION_ID.eq(destinationId))
                     .and(BACKUP_HISTORY.STARTED_AT.greaterThan(timeInPast))
                     .and(BACKUP_HISTORY.TRANSFERED_FILES_SIZE.greaterThan(0L).or(BACKUP_HISTORY.EXIT_CODE.notEqual(0)))
                 .orderBy(BACKUP_HISTORY.STARTED_AT.desc())
@@ -69,7 +64,7 @@ public class JdbcBackupDao implements IBackupDao {
     @Override
     @Transactional(readOnly = true)
     public int count() {
-        return dsl.fetchCount(BACKUP_HISTORY);
+        return getDsl().fetchCount(BACKUP_HISTORY);
     }
 
 }

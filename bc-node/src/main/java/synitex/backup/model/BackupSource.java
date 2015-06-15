@@ -4,18 +4,16 @@ import org.springframework.core.style.ToStringCreator;
 
 public class BackupSource {
 
-    private String name;
+    private String id;
     private String path;
-    private String destination;
-    private String schedule;
-    private int timeout = 600;
+    private int heartbeat = 5;
 
-    public String getName() {
-        return name;
+    public String getId() {
+        return id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getPath() {
@@ -26,34 +24,18 @@ public class BackupSource {
         this.path = path;
     }
 
-    public String getDestination() {
-        return destination;
+    public int getHeartbeat() {
+        return heartbeat;
     }
 
-    public void setDestination(String destination) {
-        this.destination = destination;
-    }
-
-    public String getSchedule() {
-        return schedule;
-    }
-
-    public void setSchedule(String schedule) {
-        this.schedule = schedule;
-    }
-
-    public int getTimeout() {
-        return timeout;
-    }
-
-    public void setTimeout(int timeout) {
-        this.timeout = timeout;
+    public void setHeartbeat(int heartbeat) {
+        this.heartbeat = heartbeat;
     }
 
     @Override
     public String toString() {
         return new ToStringCreator(this)
-                .append("name", name)
+                .append("id", id)
                 .append("path", path)
                 .toString();
     }

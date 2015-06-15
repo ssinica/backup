@@ -2,6 +2,7 @@ package synitex.backup.rest;
 
 import synitex.backup.db.tables.records.BackupHistoryRecord;
 import synitex.backup.model.BackupSource;
+import synitex.backup.model.BackupTask;
 import synitex.backup.model.Destination;
 import synitex.backup.model.SizeTimed;
 import synitex.backup.prop.AppProperties;
@@ -9,10 +10,12 @@ import synitex.backup.rest.dto.BackupHistoryItemDto;
 import synitex.backup.rest.dto.DestinationDto;
 import synitex.backup.rest.dto.SizeDto;
 import synitex.backup.rest.dto.SourceDto;
-import synitex.backup.rest.dto.SourceOverviewDto;
+import synitex.backup.rest.dto.BackupTaskOverviewDto;
 import synitex.backup.service.IBackupHistoryService;
 import synitex.backup.service.IBackupSourceService;
+import synitex.backup.service.IBackupTaskService;
 import synitex.backup.service.IDestinationService;
+import synitex.backup.service.ISizeHistoryService;
 import synitex.backup.service.ISizeService;
 import synitex.backup.util.RsyncUtil;
 
@@ -30,41 +33,48 @@ public abstract class AbstractRest {
 
     protected final ISizeService sizeService;
     protected final AppProperties appProperties;
-    protected final IDestinationService destinationProvider;
+    protected final IDestinationService destinationService;
     protected final IBackupHistoryService backupHistoryService;
     protected final IBackupSourceService backupSourceService;
+    protected final IBackupTaskService taskService;
+    protected final ISizeHistoryService sizeHistoryService;
 
     public AbstractRest(ISizeService sizeService,
                         AppProperties appProperties,
-                        IDestinationService destinationProvider,
+                        IDestinationService destinationService,
                         IBackupHistoryService backupHistoryService,
-                        IBackupSourceService backupSourceService) {
+                        IBackupSourceService backupSourceService,
+                        IBackupTaskService taskService,
+                        ISizeHistoryService sizeHistoryService) {
         this.sizeService = sizeService;
         this.appProperties = appProperties;
-        this.destinationProvider = destinationProvider;
+        this.destinationService = destinationService;
         this.backupHistoryService = backupHistoryService;
         this.backupSourceService = backupSourceService;
+        this.taskService = taskService;
+        this.sizeHistoryService = sizeHistoryService;
     }
 
-    protected SourceOverviewDto mapToOverview(BackupSource source) {
-        SourceOverviewDto dto = new SourceOverviewDto();
+    protected BackupTaskOverviewDto mapToOverview(BackupTask backupTask) {
+        BackupTaskOverviewDto dto = new BackupTaskOverviewDto();
 
-        Destination destination = destinationProvider.find(source.getDestination());
+        Destination destination = destinationService.find(backupTask.getDestination());
         DestinationDto destinationDto = mapDestination(destination);
         dto.setDestination(destinationDto);
 
-        SizeTimed destinationSize = sizeService.size(source, destination);
+        BackupSource source = backupSourceService.find(backupTask.getSource());
+        SizeTimed destinationSize = sizeHistoryService.getLastSuccessSize(source, destination);
         dto.setDestinationSize(mapSize(destinationSize));
 
         SourceDto sourceDto = new SourceDto();
-        sourceDto.setId(source.getName());
+        sourceDto.setId(source.getId());
         sourceDto.setPath(source.getPath());
         dto.setSource(sourceDto);
 
-        SizeTimed sourceSize = sizeService.size(source);
+        SizeTimed sourceSize = sizeHistoryService.getlastSuccessSize(source);
         dto.setSourceSize(mapSize(sourceSize));
 
-        List<BackupHistoryRecord> historyRecords = backupHistoryService.findBySourceForLastWeek(source.getName());
+        List<BackupHistoryRecord> historyRecords = backupHistoryService.findBySourceForLastWeek(backupTask.getSource(), backupTask.getDestination());
         List<BackupHistoryItemDto> backupHistoryDtos = StreamSupport.stream(historyRecords.spliterator(), false)
                 .map(this::mapBackupHistoryItem)
                 .collect(toList());
@@ -125,10 +135,14 @@ public abstract class AbstractRest {
     }
 
     protected String formatDateTime(long time) {
-        Instant instant = Instant.ofEpochMilli(time);
-        LocalDateTime dateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
-        return dateTime.format(formatter);
+        if(time > 0) {
+            Instant instant = Instant.ofEpochMilli(time);
+            LocalDateTime dateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
+            return dateTime.format(formatter);
+        } else {
+            return "undefined";
+        }
     }
 
     protected DestinationDto mapDestination(Destination d) {

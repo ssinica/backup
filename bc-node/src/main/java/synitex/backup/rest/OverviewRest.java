@@ -5,10 +5,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import synitex.backup.prop.AppProperties;
 import synitex.backup.rest.dto.OverviewDto;
-import synitex.backup.rest.dto.SourceOverviewDto;
+import synitex.backup.rest.dto.BackupTaskOverviewDto;
 import synitex.backup.service.IBackupHistoryService;
 import synitex.backup.service.IBackupSourceService;
+import synitex.backup.service.IBackupTaskService;
 import synitex.backup.service.IDestinationService;
+import synitex.backup.service.ISizeHistoryService;
 import synitex.backup.service.ISizeService;
 
 import java.util.List;
@@ -24,14 +26,17 @@ public class OverviewRest extends AbstractRest {
                         AppProperties appProperties,
                         IDestinationService destinationProvider,
                         IBackupHistoryService backupHistoryService,
-                        IBackupSourceService backupSourceService) {
+                        IBackupSourceService backupSourceService,
+                        IBackupTaskService taskService,
+                        ISizeHistoryService sizeHistoryService) {
         super(
                 sizeService,
                 appProperties,
                 destinationProvider,
                 backupHistoryService,
-                backupSourceService
-        );
+                backupSourceService,
+                taskService,
+                sizeHistoryService);
     }
 
     @RequestMapping(RestUrls.OVERVIEW)
@@ -39,10 +44,10 @@ public class OverviewRest extends AbstractRest {
         OverviewDto dto = new OverviewDto();
         dto.setAppId(appProperties.getId());
 
-        List<SourceOverviewDto> sourcesOverviewDtos = backupSourceService.list().stream()
+        List<BackupTaskOverviewDto> sourcesOverviewDtos = taskService.list().stream()
                 .map(this::mapToOverview)
                 .collect(toList());
-        dto.setSourceOverviews(sourcesOverviewDtos);
+        dto.setTaskOverviews(sourcesOverviewDtos);
 
         return dto;
     }

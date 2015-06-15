@@ -11,7 +11,9 @@ import org.jooq.UniqueKey;
 import org.jooq.impl.AbstractKeys;
 
 import synitex.backup.db.tables.BackupHistory;
+import synitex.backup.db.tables.SizeHistory;
 import synitex.backup.db.tables.records.BackupHistoryRecord;
+import synitex.backup.db.tables.records.SizeHistoryRecord;
 
 
 /**
@@ -33,12 +35,14 @@ public class Keys {
 	// -------------------------------------------------------------------------
 
 	public static final Identity<BackupHistoryRecord, Long> IDENTITY_BACKUP_HISTORY = Identities0.IDENTITY_BACKUP_HISTORY;
+	public static final Identity<SizeHistoryRecord, Long> IDENTITY_SIZE_HISTORY = Identities0.IDENTITY_SIZE_HISTORY;
 
 	// -------------------------------------------------------------------------
 	// UNIQUE and PRIMARY KEY definitions
 	// -------------------------------------------------------------------------
 
 	public static final UniqueKey<BackupHistoryRecord> SYS_PK_10113 = UniqueKeys0.SYS_PK_10113;
+	public static final UniqueKey<SizeHistoryRecord> SYS_PK_10117 = UniqueKeys0.SYS_PK_10117;
 
 	// -------------------------------------------------------------------------
 	// FOREIGN KEY definitions
@@ -51,9 +55,11 @@ public class Keys {
 
 	private static class Identities0 extends AbstractKeys {
 		public static Identity<BackupHistoryRecord, Long> IDENTITY_BACKUP_HISTORY = createIdentity(BackupHistory.BACKUP_HISTORY, BackupHistory.BACKUP_HISTORY.ID);
+		public static Identity<SizeHistoryRecord, Long> IDENTITY_SIZE_HISTORY = createIdentity(SizeHistory.SIZE_HISTORY, SizeHistory.SIZE_HISTORY.ID);
 	}
 
 	private static class UniqueKeys0 extends AbstractKeys {
 		public static final UniqueKey<BackupHistoryRecord> SYS_PK_10113 = createUniqueKey(BackupHistory.BACKUP_HISTORY, BackupHistory.BACKUP_HISTORY.ID);
+		public static final UniqueKey<SizeHistoryRecord> SYS_PK_10117 = createUniqueKey(SizeHistory.SIZE_HISTORY, SizeHistory.SIZE_HISTORY.ID);
 	}
 }
