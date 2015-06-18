@@ -71,8 +71,13 @@ public class Application {
     }
 
     public static void shutdown() {
-        log.info("Shutdown is requested! See you!");
-        ctx.close();
+        log.info("Shutdown is requested!");
+        try {
+            ctx.close();
+        } finally {
+            log.info("See you!");
+            System.exit(0);
+        }
     }
 
     @Bean
