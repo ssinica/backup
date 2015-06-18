@@ -100,6 +100,7 @@ public class RsyncBackupService implements IBackupService {
             "--stats",
             "-zrltD",
             "--chmod=ug=rw,Dug+x,o-xwr",
+            "--delete",
             String.format("--timeout=%s", timeout)));
     }
 
