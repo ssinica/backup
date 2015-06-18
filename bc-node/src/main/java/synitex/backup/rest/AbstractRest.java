@@ -99,6 +99,10 @@ public abstract class AbstractRest {
     }
 
     private String formatDuration(long startedAt, long finishedAt) {
+        if(startedAt < 0) {
+            return "undefined";
+        }
+
         Duration duration = Duration.between(Instant.ofEpochMilli(startedAt), Instant.ofEpochMilli(finishedAt));
 
         long days = duration.toDays();

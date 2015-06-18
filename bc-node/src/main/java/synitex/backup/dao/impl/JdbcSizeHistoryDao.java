@@ -1,6 +1,7 @@
 package synitex.backup.dao.impl;
 
 import org.jooq.DSLContext;
+import org.jooq.Record;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,12 +31,12 @@ public class JdbcSizeHistoryDao extends AbstractJdbcDao implements ISizeHistoryD
     @Override
     @Transactional(readOnly = true)
     public SizeHistoryRecord findLast(String id) {
-        return getDsl().select().from(SIZE_HISTORY)
+        Record r = getDsl().select().from(SIZE_HISTORY)
                 .where(SIZE_HISTORY.SIZE_HISTORY_ID.eq(id))
-                    .and(SIZE_HISTORY.SIZE.greaterThan(0L))
+                .and(SIZE_HISTORY.SIZE.greaterThan(0L))
                 .orderBy(SIZE_HISTORY.STARTED_AT.desc())
                 .limit(1)
-                .fetchOne()
-                .into(SIZE_HISTORY);
+                .fetchOne();
+        return r == null ? null : r.into(SIZE_HISTORY);
     }
 }
