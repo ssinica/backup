@@ -15,6 +15,7 @@ import synitex.backup.service.IBackupHistoryService;
 import synitex.backup.service.IBackupSourceService;
 import synitex.backup.service.IBackupTaskService;
 import synitex.backup.service.IDestinationService;
+import synitex.backup.service.IScheduler;
 import synitex.backup.service.ISizeHistoryService;
 import synitex.backup.service.ISizeService;
 import synitex.backup.util.RsyncUtil;
@@ -38,6 +39,7 @@ public abstract class AbstractRest {
     protected final IBackupSourceService backupSourceService;
     protected final IBackupTaskService taskService;
     protected final ISizeHistoryService sizeHistoryService;
+    protected final IScheduler scheduler;
 
     public AbstractRest(ISizeService sizeService,
                         AppProperties appProperties,
@@ -45,7 +47,7 @@ public abstract class AbstractRest {
                         IBackupHistoryService backupHistoryService,
                         IBackupSourceService backupSourceService,
                         IBackupTaskService taskService,
-                        ISizeHistoryService sizeHistoryService) {
+                        ISizeHistoryService sizeHistoryService, IScheduler scheduler) {
         this.sizeService = sizeService;
         this.appProperties = appProperties;
         this.destinationService = destinationService;
@@ -53,6 +55,7 @@ public abstract class AbstractRest {
         this.backupSourceService = backupSourceService;
         this.taskService = taskService;
         this.sizeHistoryService = sizeHistoryService;
+        this.scheduler = scheduler;
     }
 
     protected BackupTaskOverviewDto mapToOverview(BackupTask backupTask) {

@@ -16,16 +16,18 @@ import synitex.backup.service.IBackupSourceService;
 import synitex.backup.service.IBackupTaskService;
 import synitex.backup.service.IDestinationService;
 import synitex.backup.service.IEventsService;
+import synitex.backup.service.IScheduler;
 import synitex.backup.service.ISizeHistoryService;
 import synitex.backup.service.ISizeService;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 @Component
-public class Scheduller implements SchedulingConfigurer, DisposableBean {
+public class Scheduller implements SchedulingConfigurer, IScheduler, DisposableBean {
 
     private static final Logger log = LoggerFactory.getLogger(Scheduller.class);
 
@@ -76,6 +78,21 @@ public class Scheduller implements SchedulingConfigurer, DisposableBean {
             } else {
                 log.info("Thread pool is shutdown!");
             }
+        }
+    }
+
+    @Override
+    public void adhocBackupTask(String sourceId, String destinationId) {
+        Optional<BackupTask> optTask = taskService.list().stream()
+                .filter(task -> task.getDestination().equals(destinationId) && task.getSource().equals(sourceId))
+                .findFirst();
+        if(optTask.isPresent()) {
+            BackupTask task = optTask.get();
+            BackupJob job = new BackupJob(task, backupService, eventsService, destinationService, backupSourceService);
+            log.info(String.format("Running adhoc backup task for source '%s' and destination '%s'", sourceId, destinationId));
+            job.run();
+        } else {
+            log.info(String.format("Failed to find backup task for source '%s' and destination '%s'", sourceId, destinationId));
         }
     }
 

@@ -10,6 +10,7 @@ import synitex.backup.service.IBackupHistoryService;
 import synitex.backup.service.IBackupSourceService;
 import synitex.backup.service.IBackupTaskService;
 import synitex.backup.service.IDestinationService;
+import synitex.backup.service.IScheduler;
 import synitex.backup.service.ISizeHistoryService;
 import synitex.backup.service.ISizeService;
 
@@ -28,7 +29,8 @@ public class OverviewRest extends AbstractRest {
                         IBackupHistoryService backupHistoryService,
                         IBackupSourceService backupSourceService,
                         IBackupTaskService taskService,
-                        ISizeHistoryService sizeHistoryService) {
+                        ISizeHistoryService sizeHistoryService,
+                        IScheduler scheduler) {
         super(
                 sizeService,
                 appProperties,
@@ -36,7 +38,8 @@ public class OverviewRest extends AbstractRest {
                 backupHistoryService,
                 backupSourceService,
                 taskService,
-                sizeHistoryService);
+                sizeHistoryService,
+                scheduler);
     }
 
     @RequestMapping(RestUrls.OVERVIEW)
