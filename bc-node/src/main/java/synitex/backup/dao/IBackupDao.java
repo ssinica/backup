@@ -9,7 +9,7 @@ public interface IBackupDao {
 
     void saveBackup(BackupFinishedEvent event);
 
-    List<BackupHistoryRecord> list(String sourceId, int offset, int limit);
+    List<BackupHistoryRecord> list(String sourceId, String destinationId, int offset, int limit);
 
     List<BackupHistoryRecord> list(String sourceId, String destinationId, long timeInPast);
 

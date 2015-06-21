@@ -4,10 +4,8 @@ import com.google.common.eventbus.Subscribe;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import synitex.backup.dao.IBackupDao;
 import synitex.backup.db.tables.records.BackupHistoryRecord;
 import synitex.backup.event.BackupFinishedEvent;
@@ -52,15 +50,15 @@ public class BackupHistoryService implements IBackupHistoryService {
     }
 
     @Override
-    public Page<BackupHistoryRecord> findBySource(String sourceId, Pageable pageable) {
-        List<BackupHistoryRecord> records = backupDao.list(sourceId, pageable.getOffset(), pageable.getPageSize());
-        int totalCount = backupDao.count();
-        return new PageImpl<>(records, pageable, totalCount);
-    }
-
-    @Override
     public List<BackupHistoryRecord> findBySourceForLastWeek(String sourceId, String destinationId) {
         long weekAgo = LocalDateTime.now().minusDays(7).toEpochSecond(ZoneOffset.UTC);
         return backupDao.list(sourceId, destinationId, weekAgo);
     }
+
+    @Override
+    public BackupHistoryRecord findLast(String sourceId, String destinationId) {
+        List<BackupHistoryRecord> records = backupDao.list(sourceId, destinationId, 0, 1);
+        return CollectionUtils.isEmpty(records) ? null : records.get(0);
+    }
+
 }

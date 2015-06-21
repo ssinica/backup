@@ -1,5 +1,6 @@
 package synitex.backup.gui;
 
+import com.google.common.base.Joiner;
 import com.google.common.eventbus.Subscribe;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,16 +17,19 @@ import java.awt.SystemTray;
 import java.awt.TrayIcon;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class BcNodeSystemTray implements Runnable {
 
     private static final Logger log = LoggerFactory.getLogger(BcNodeSystemTray.class);
+    private static final String ALL_DONE = "All done!";
 
     private final BcNodeSystemTrayListener listener;
     private SystemTray tray;
     private TrayIcon trayIcon;
-    private SystemTrayState state = SystemTrayState.NORMAL;
     private boolean initialized = false;
+
+    private ConcurrentHashMap<String, String> tooltips = new ConcurrentHashMap<>();
 
     public BcNodeSystemTray(BcNodeSystemTrayListener listener) {
         this.listener = listener;
@@ -37,8 +41,8 @@ public class BcNodeSystemTray implements Runnable {
 
         PopupMenu popup = new PopupMenu();
 
-        Image image = loadImage(state);
-        trayIcon = new TrayIcon(image, createTooltipText(state), popup);
+        Image image = loadImage(SystemTrayState.NORMAL);
+        trayIcon = new TrayIcon(image, ALL_DONE, popup);
         trayIcon.setImageAutoSize(true);
 
         MenuItem itemWebUI = new MenuItem("Overview");
@@ -61,12 +65,17 @@ public class BcNodeSystemTray implements Runnable {
 
     @Subscribe
     public void onBackupStarted(BackupStartedEvent event) {
-        changeSystemTrayState(SystemTrayState.BACKUP_IN_PROGRESS);
+        String s = String.format("Syncing %s to %s...", event.getSource().getId(), event.getDestination().getId());
+        String id = event.getSource().getId() + "-" +  event.getDestination().getId();
+        tooltips.put(id, s);
+        updateSystemTrayState();
     }
 
     @Subscribe
     public void onBackupFinished(BackupFinishedEvent event) {
-        changeSystemTrayState(SystemTrayState.NORMAL);
+        String id = event.getSource().getId() + "-" +  event.getDestination().getId();
+        tooltips.remove(id);
+        updateSystemTrayState();
     }
 
     public void cleanUp() {
@@ -80,13 +89,22 @@ public class BcNodeSystemTray implements Runnable {
         listener.onExitClick();
     }
 
-    private synchronized void changeSystemTrayState(SystemTrayState newState) {
-        if(initialized && newState != state) {
-            state = newState;
-            Image image = loadImage(state);
-            trayIcon.setImage(image);
-            trayIcon.setToolTip(createTooltipText(state));
+    private synchronized void updateSystemTrayState() {
+        if(!initialized) {
+            return;
         }
+
+        SystemTrayState state = SystemTrayState.NORMAL;
+        String text = ALL_DONE;
+        if(tooltips.size() > 0) {
+            state = SystemTrayState.BACKUP_IN_PROGRESS;
+            text = Joiner.on("\n").join(tooltips.values());
+        }
+
+        Image image = loadImage(state);
+        trayIcon.setImage(image);
+        trayIcon.setToolTip(text);
+
     }
 
     private Image loadImage(SystemTrayState state) {
@@ -96,13 +114,6 @@ public class BcNodeSystemTray implements Runnable {
         } catch (IOException e) {
             log.error("Failed to open icon image", e);
             throw new IllegalStateException(String.format("Failed to open icon image: '%s'", state.getImageUrl()), e);
-        }
-    }
-
-    private String createTooltipText(SystemTrayState state) {
-        switch (state) {
-            case BACKUP_IN_PROGRESS: return "Backup in progress...";
-            default: return "All done!";
         }
     }
 

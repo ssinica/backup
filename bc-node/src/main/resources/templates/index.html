@@ -40,6 +40,9 @@
                     <a th:href="@{/execute(sourceId=${overview.source.id},destinationId=${overview.destination.id})}" class="bc-sync-link">
                         <i class="fa fa-exchange bc-sync-icon"></i>
                     </a>
+                    <div class="bc-last-sync" th:if="${overview.lastBackupHistoryItem != null}">
+                        <span th:text="|${overview.lastBackupHistoryItem.elapsedFromStartFormatted} ago|" th:class="${overview.lastBackupHistoryItem.successful} ? '' : 'color-failed'">undefined</span>
+                    </div>
                 </div>
                 <div class="col-md-5">
                     <h2 th:utext="|${overview.destination.id} <small>${overview.destination.name}</small>|">Destination</h2>

@@ -59,29 +59,38 @@ public abstract class AbstractRest {
     }
 
     protected BackupTaskOverviewDto mapToOverview(BackupTask backupTask) {
+        String sourceId = backupTask.getSource();
+        String destinationId = backupTask.getDestination();
+
         BackupTaskOverviewDto dto = new BackupTaskOverviewDto();
 
-        Destination destination = destinationService.find(backupTask.getDestination());
+        Destination destination = destinationService.find(destinationId);
         DestinationDto destinationDto = mapDestination(destination);
         dto.setDestination(destinationDto);
 
-        BackupSource source = backupSourceService.find(backupTask.getSource());
+        BackupSource source = backupSourceService.find(sourceId);
         SizeTimed destinationSize = sizeHistoryService.getLastSuccessSize(source, destination);
         dto.setDestinationSize(mapSize(destinationSize));
 
         SourceDto sourceDto = new SourceDto();
-        sourceDto.setId(source.getId());
+        sourceDto.setId(sourceId);
         sourceDto.setPath(source.getPath());
         dto.setSource(sourceDto);
 
         SizeTimed sourceSize = sizeHistoryService.getlastSuccessSize(source);
         dto.setSourceSize(mapSize(sourceSize));
 
-        List<BackupHistoryRecord> historyRecords = backupHistoryService.findBySourceForLastWeek(backupTask.getSource(), backupTask.getDestination());
+        List<BackupHistoryRecord> historyRecords = backupHistoryService.findBySourceForLastWeek(sourceId, destinationId);
         List<BackupHistoryItemDto> backupHistoryDtos = StreamSupport.stream(historyRecords.spliterator(), false)
                 .map(this::mapBackupHistoryItem)
                 .collect(toList());
         dto.setBackupHistoryItems(backupHistoryDtos);
+
+        BackupHistoryRecord lastBackupHistoryItem = backupHistoryService.findLast(sourceId, destinationId);
+        if(lastBackupHistoryItem != null) {
+            BackupHistoryItemDto lastBackupHistoryItemDto = mapBackupHistoryItem(lastBackupHistoryItem);
+            dto.setLastBackupHistoryItem(lastBackupHistoryItemDto);
+        }
 
         return dto;
     }

@@ -37,10 +37,11 @@ public class JdbcBackupDao extends AbstractJdbcDao implements IBackupDao {
 
     @Override
     @Transactional(readOnly = true)
-    public List<BackupHistoryRecord> list(String sourceId, int offset, int limit) {
+    public List<BackupHistoryRecord> list(String sourceId, String destinationId, int offset, int limit) {
         return getDsl().select()
                 .from(BACKUP_HISTORY)
                 .where(BACKUP_HISTORY.SOURCE_ID.eq(sourceId))
+                    .and(BACKUP_HISTORY.DESTINATION_ID.eq(destinationId))
                 .orderBy(BACKUP_HISTORY.STARTED_AT.desc())
                 .limit(offset, limit)
                 .fetch()

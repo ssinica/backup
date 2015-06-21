@@ -21,6 +21,9 @@ public class BackupTaskOverviewDto {
     @JsonProperty("backupHistoryItems")
     private List<BackupHistoryItemDto> backupHistoryItems;
 
+    @JsonProperty("lastBackupHistoryItem")
+    private BackupHistoryItemDto lastBackupHistoryItem;
+
     public SourceDto getSource() {
         return source;
     }
@@ -59,5 +62,13 @@ public class BackupTaskOverviewDto {
 
     public void setBackupHistoryItems(List<BackupHistoryItemDto> backupHistoryItems) {
         this.backupHistoryItems = backupHistoryItems;
+    }
+
+    public BackupHistoryItemDto getLastBackupHistoryItem() {
+        return lastBackupHistoryItem;
+    }
+
+    public void setLastBackupHistoryItem(BackupHistoryItemDto lastBackupHistoryItem) {
+        this.lastBackupHistoryItem = lastBackupHistoryItem;
     }
 }
