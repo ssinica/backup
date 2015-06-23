@@ -1,4 +1,4 @@
-# How to setup SSH bc-destination #
+# How to setup SSH backup destination #
 
 ## Setup SSH ##
 
