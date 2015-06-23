@@ -8,7 +8,6 @@ WARNING: Being too busy to worry about backup is like being too busy driving a c
 
 bc-destination:: The location where the files are copied. Can be: `SSH`, `LOCAL`, `S3`, etc...
 bc-node:: Utility which resides on client computer. `bc-node` backups data to `bc-destination`.
-bc-master:: Host which monitors all `bc-nodes`. Provides an admin interface to review backup solution in general.
 
 ## TOC ##
 
@@ -20,6 +19,20 @@ bc-master:: Host which monitors all `bc-nodes`. Provides an admin interface to r
 ## Screenshots ##
 
 image::docs/images/backup-ui.png[Overview]
+
+## Description ##
+
+The app uses `rsync` to periodically backup directories on your computer to different hard drives or to remote hosts thru SSH connections. 
+
+The backup is incremental - only changed files are copied. Also the backup configuration is very flexible. Each directory can be backuped to multiple destinations. And for each backup task you can specify different backup schedule using CRON expression. So, for example, you can backup your books collection to external HDD each hour and to remote SSH host each day.
+
+App runs in background but there is an icon in system tray, which changes each time backup is running. 
+
+Also the app has a web UI, which can be launch from a system tray. A web UI lists all the backup tasks with some historical information about each task. For example, it shows information about few last backups: when it was triggered, how many data were transferred, how long it took, etc.... 
+
+You can trigger ad-hoc backup tasks from web UI.
+
+In addition, the app can notify you about different events thru XMPP (other channels are comming...).
 
 ## Installation ##
 
