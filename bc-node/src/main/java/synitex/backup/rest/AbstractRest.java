@@ -7,10 +7,10 @@ import synitex.backup.model.Destination;
 import synitex.backup.model.SizeTimed;
 import synitex.backup.prop.AppProperties;
 import synitex.backup.rest.dto.BackupHistoryItemDto;
+import synitex.backup.rest.dto.BackupTaskOverviewDto;
 import synitex.backup.rest.dto.DestinationDto;
 import synitex.backup.rest.dto.SizeDto;
 import synitex.backup.rest.dto.SourceDto;
-import synitex.backup.rest.dto.BackupTaskOverviewDto;
 import synitex.backup.service.IBackupHistoryService;
 import synitex.backup.service.IBackupSourceService;
 import synitex.backup.service.IBackupTaskService;
@@ -19,12 +19,10 @@ import synitex.backup.service.IScheduler;
 import synitex.backup.service.ISizeHistoryService;
 import synitex.backup.service.ISizeService;
 import synitex.backup.util.RsyncUtil;
+import synitex.backup.util.TimeUtils;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.StreamSupport;
 
@@ -152,10 +150,7 @@ public abstract class AbstractRest {
 
     protected String formatDateTime(long time) {
         if(time > 0) {
-            Instant instant = Instant.ofEpochMilli(time);
-            LocalDateTime dateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
-            return dateTime.format(formatter);
+            return TimeUtils .formatDateTime(time);
         } else {
             return "undefined";
         }

@@ -7,6 +7,10 @@ rsync:
 xmpp:
   enabled: false
 
+notification:
+  backupFailed: false
+  backupSuccess: false
+
 spring:
   datasource:
     url: ${db.url}

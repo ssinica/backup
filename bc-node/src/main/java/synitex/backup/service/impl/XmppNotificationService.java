@@ -14,13 +14,10 @@ import rocks.xmpp.core.stanza.model.client.Message;
 import rocks.xmpp.core.stanza.model.client.Presence;
 import synitex.backup.event.BackupFinishedEvent;
 import synitex.backup.model.BackupResult;
+import synitex.backup.prop.NotificationProperties;
 import synitex.backup.prop.XmppProperties;
 import synitex.backup.service.INotificationService;
-
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
+import synitex.backup.util.TimeUtils;
 
 @Service
 public class XmppNotificationService implements INotificationService, DisposableBean {
@@ -28,11 +25,15 @@ public class XmppNotificationService implements INotificationService, Disposable
     private static final Logger log = LoggerFactory.getLogger(XmppNotificationService.class);
 
     private final XmppProperties xmppProperties;
+    private final NotificationProperties notificationProperties;
+
     private XmppSession xmppSession;
 
     @Autowired
-    public XmppNotificationService(XmppProperties xmppProperties) {
+    public XmppNotificationService(XmppProperties xmppProperties,
+                                   NotificationProperties notificationProperties) {
         this.xmppProperties = xmppProperties;
+        this.notificationProperties = notificationProperties;
         initXmppSession();
     }
 
@@ -46,16 +47,13 @@ public class XmppNotificationService implements INotificationService, Disposable
     @Override
     public void notify(BackupFinishedEvent event) {
         BackupResult result = event.getResult();
-        if(!result.success()) {
+        if(notificationProperties.isBackupSuccess() && result.success()
+                || notificationProperties.isBackupFailed() && !result.success()) {
             String sourceId = event.getSource().getId();
             String destinationId = event.getDestination().getId();
-
-            Instant instant = Instant.ofEpochMilli(event.getStartedAt());
-            LocalDateTime dateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
-            String time = formatter.format(dateTime);
-
-            String msg = String.format("[%s] Failed! %s -> %s", time, sourceId, destinationId);
+            String time = TimeUtils.formatDateTime(event.getStartedAt());
+            String status = event.getResult().success() ? "OK" : "Failed";
+            String msg = String.format("[%s] %s! %s -> %s", time, status, sourceId, destinationId);
             send(msg);
         }
     }

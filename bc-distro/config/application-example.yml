@@ -18,6 +18,10 @@ xmpp:
   senderPass: [XMPP user password]
   receiver: [XMPP user name to send notification to. Can be the same as 'sender']
 
+notification:
+  backupFailed: [Send notification if backup failed? Default value = false]
+  backupSuccess: [Send notification if backup success? Default value = false]
+
 backup:
   destinations:
     - id: [Destination Id]
