@@ -7,7 +7,6 @@ import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import rocks.xmpp.core.Jid;
-import rocks.xmpp.core.XmppException;
 import rocks.xmpp.core.session.XmppSession;
 import rocks.xmpp.core.stanza.model.AbstractMessage.Type;
 import rocks.xmpp.core.stanza.model.client.Message;
@@ -16,6 +15,7 @@ import synitex.backup.event.BackupFinishedEvent;
 import synitex.backup.model.BackupResult;
 import synitex.backup.prop.NotificationProperties;
 import synitex.backup.prop.XmppProperties;
+import synitex.backup.service.IEventsService;
 import synitex.backup.service.INotificationService;
 import synitex.backup.util.TimeUtils;
 
@@ -31,15 +31,19 @@ public class XmppNotificationService implements INotificationService, Disposable
 
     @Autowired
     public XmppNotificationService(XmppProperties xmppProperties,
-                                   NotificationProperties notificationProperties) {
+                                   NotificationProperties notificationProperties,
+                                   IEventsService eventsService) {
         this.xmppProperties = xmppProperties;
         this.notificationProperties = notificationProperties;
+
+        eventsService.register(this);
         initXmppSession();
     }
 
     @Override
     public void destroy() throws Exception {
         if(xmppSession != null) {
+            log.debug("Closing XMPP session.");
             xmppSession.close();
         }
     }
@@ -54,6 +58,7 @@ public class XmppNotificationService implements INotificationService, Disposable
             String time = TimeUtils.formatDateTime(event.getStartedAt());
             String status = event.getResult().success() ? "OK" : "Failed";
             String msg = String.format("[%s] %s! %s -> %s", time, status, sourceId, destinationId);
+            log.info(String.format("Sending XMPP notification about backup (%s -> %s) finish.", sourceId, destinationId));
             send(msg);
         }
     }
@@ -67,7 +72,10 @@ public class XmppNotificationService implements INotificationService, Disposable
 
     private void initXmppSession() {
         if(xmppProperties.isEnabled()) {
+            log.info(String.format("Init XMPP session with domain '%s'", xmppProperties.getDomain()));
             xmppSession = new XmppSession(xmppProperties.getDomain());
+        } else {
+            log.info("XMPP notifications are disabled!");
         }
     }
 
@@ -75,17 +83,24 @@ public class XmppNotificationService implements INotificationService, Disposable
         if(xmppSession == null) {
             return;
         }
-        if(!xmppSession.isConnected()) {
-            try {
+        try {
+            if(!xmppSession.isConnected()) {
+                log.debug("XMPP session is not connected. Will connect.");
                 xmppSession.connect();
+                log.debug(String.format("Will login to XMPP server with '%s' username", xmppProperties.getSender()));
                 xmppSession.login(xmppProperties.getSender(), xmppProperties.getSenderPass());
-            } catch (XmppException e) {
-                log.error("Failed to connect to XMPP server", e);
             }
-        }
-        if(xmppSession.isConnected()) {
-            xmppSession.send(new Presence());
-            xmppSession.send(new Message(Jid.valueOf(xmppProperties.getReceiver()), Type.CHAT, message));
+            if(xmppSession.isConnected()) {
+                xmppSession.send(new Presence());
+                xmppSession.send(new Message(Jid.valueOf(xmppProperties.getReceiver()), Type.CHAT, message));
+                if(log.isDebugEnabled()) {
+                    log.debug(String.format("XMPP message '%s' is sent to '%s'", message, xmppProperties.getReceiver()));
+                }
+            } else {
+                log.warn("XMPP message is not sent because XMPP session is not connected!");
+            }
+        } catch (Exception ex) {
+            log.error("Failed to send XMPP message", ex);
         }
     }
 
