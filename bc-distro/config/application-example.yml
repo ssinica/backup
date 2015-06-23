@@ -11,6 +11,13 @@ spring:
   datasource:
     url: [Default value = jdbc:hsqldb:file:~/bc-node/data/backupdb]
 
+xmpp:
+  enabled: [XMPP notifications are enabled? Default value = false]
+  domain: [XMPP server domain. Example = jabber.ru]
+  sender: [XMPP user name]
+  senderPass: [XMPP user password]
+  receiver: [XMPP user name to send notification to. Can be the same as 'sender']
+
 backup:
   destinations:
     - id: [Destination Id]

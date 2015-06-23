@@ -23,6 +23,7 @@
         <flyway.version>3.2.1</flyway.version>
         <spring-data.version>1.10.0.RELEASE</spring-data.version>
         <nekohtml.version>1.9.22</nekohtml.version>
+        <babbler.version>0.5.1</babbler.version>
 
         <db.url>jdbc:hsqldb:file:~/bc-node/data/backupdb</db.url>
         <db.user>SA</db.user>
@@ -78,6 +79,11 @@
                 <groupId>net.sourceforge.nekohtml</groupId>
                 <artifactId>nekohtml</artifactId>
                 <version>${nekohtml.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>rocks.xmpp</groupId>
+                <artifactId>xmpp-core-client</artifactId>
+                <version>${babbler.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

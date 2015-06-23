@@ -4,6 +4,9 @@ server:
 rsync:
   cmd: rsync
 
+xmpp:
+  enabled: false
+
 spring:
   datasource:
     url: ${db.url}
