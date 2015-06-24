@@ -13,6 +13,7 @@ import rocks.xmpp.core.stanza.model.client.Message;
 import rocks.xmpp.core.stanza.model.client.Presence;
 import synitex.backup.event.BackupFinishedEvent;
 import synitex.backup.model.BackupResult;
+import synitex.backup.prop.AppProperties;
 import synitex.backup.prop.NotificationProperties;
 import synitex.backup.prop.XmppProperties;
 import synitex.backup.service.IEventsService;
@@ -26,15 +27,18 @@ public class XmppNotificationService implements INotificationService, Disposable
 
     private final XmppProperties xmppProperties;
     private final NotificationProperties notificationProperties;
+    private final AppProperties appProperties;
 
     private XmppSession xmppSession;
 
     @Autowired
     public XmppNotificationService(XmppProperties xmppProperties,
                                    NotificationProperties notificationProperties,
-                                   IEventsService eventsService) {
+                                   IEventsService eventsService,
+                                   AppProperties appProperties) {
         this.xmppProperties = xmppProperties;
         this.notificationProperties = notificationProperties;
+        this.appProperties = appProperties;
 
         eventsService.register(this);
         initXmppSession();
@@ -57,7 +61,12 @@ public class XmppNotificationService implements INotificationService, Disposable
             String destinationId = event.getDestination().getId();
             String time = TimeUtils.formatDateTime(event.getStartedAt());
             String status = event.getResult().success() ? "OK" : "Failed";
-            String msg = String.format("[%s] %s! %s -> %s", time, status, sourceId, destinationId);
+            String msg = String.format("[%s] %s! %s -> %s [%s]",
+                    appProperties.getId(),
+                    status,
+                    sourceId,
+                    destinationId,
+                    time);
             log.info(String.format("Sending XMPP notification about backup (%s -> %s) finish.", sourceId, destinationId));
             send(msg);
         }
